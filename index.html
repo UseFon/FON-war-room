@@ -3,921 +3,1043 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FON — Friday War Room</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>FON War Room</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap');
+
 :root {
-  --bg: #0a0a0f;
-  --panel: #111118;
-  --border: #1e1e2e;
-  --hot: #ff3d3d;
-  --cold: #3d9fff;
-  --gold: #ffd44d;
-  --green: #00e676;
-  --amber: #ffb300;
-  --text: #f0f0f0;
-  --muted: #555570;
-  --label: #888899;
-  --navy: #1D3557;
-  --p0: #ff3d3d;
+  --bg: #0a0a0a;
+  --bg-card: #141414;
+  --bg-elevated: #1a1a1a;
+  --border: #2a2a2a;
+  --text: #e8e8e8;
+  --label: #888888;
+  --accent: #ff4757;
+  --green: #2ed573;
+  --gold: #ffa502;
+  --hot: #ff4757;
+  --warm: #ffa502;
+  --cold: #70a1ff;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
+  font-family: 'DM Sans', sans-serif;
   background: var(--bg);
   color: var(--text);
-  font-family: 'DM Sans', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* animated background grid */
+/* Animated grid background */
 body::before {
   content: '';
   position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,61,61,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,61,61,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.3;
+  z-index: -1;
+  animation: gridMove 20s linear infinite;
 }
 
-/* ── HEADER ── */
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+/* Header */
 .header {
-  position: relative;
-  z-index: 10;
+  background: var(--bg-elevated);
+  border-bottom: 2px solid var(--accent);
+  padding: 20px 40px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 18px 32px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(10,10,15,0.95);
-  backdrop-filter: blur(10px);
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
-
-.header-left { display: flex; align-items: center; gap: 16px; }
 
 .logo {
-  font-family: 'Bebas Neue', cursive;
-  font-size: 28px;
-  letter-spacing: 3px;
-  color: var(--text);
-}
-.logo span { color: var(--hot); }
-
-.live-badge {
-  display: flex; align-items: center; gap: 6px;
-  background: rgba(255,61,61,0.12);
-  border: 1px solid rgba(255,61,61,0.3);
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--hot);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-.live-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--hot);
-  animation: pulse 1.5s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.8); }
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 2px;
+  color: var(--accent);
 }
 
-.header-right {
-  display: flex; align-items: center; gap: 20px;
-  font-size: 12px; color: var(--label);
-}
-
-.week-label {
+.week-display {
   font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  color: var(--gold);
+  font-size: 14px;
+  color: var(--label);
   letter-spacing: 1px;
 }
 
-/* ── NAV TABS ── */
-.pathway-nav {
-  position: relative;
-  z-index: 10;
+.load-data-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.load-data-btn:hover {
+  background: #ff6b81;
+  transform: scale(1.05);
+}
+
+/* Navigation */
+.nav {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
   display: flex;
   gap: 4px;
-  padding: 16px 32px 0;
-  border-bottom: 1px solid var(--border);
-  background: rgba(10,10,15,0.9);
+  overflow-x: auto;
 }
 
-.pathway-tab {
-  padding: 10px 24px;
-  font-family: 'Bebas Neue', cursive;
+.nav-tab {
+  background: transparent;
+  border: none;
+  color: var(--label);
+  font-family: 'Bebas Neue', sans-serif;
   font-size: 18px;
-  letter-spacing: 2px;
-  color: var(--muted);
+  letter-spacing: 1px;
+  padding: 16px 24px;
   cursor: pointer;
   border-bottom: 3px solid transparent;
   transition: all 0.2s;
-  background: none;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-}
-.pathway-tab:hover { color: var(--text); }
-.pathway-tab.active {
-  color: var(--hot);
-  border-bottom-color: var(--hot);
+  white-space: nowrap;
 }
 
-.add-pathway-btn {
-  padding: 10px 20px;
-  font-size: 18px;
-  color: var(--muted);
-  cursor: pointer;
-  background: none;
-  border: none;
-  transition: color 0.2s;
-  font-family: 'Bebas Neue', cursive;
-  letter-spacing: 1px;
+.nav-tab:hover {
+  color: var(--text);
+  background: rgba(255, 71, 87, 0.05);
 }
-.add-pathway-btn:hover { color: var(--gold); }
 
-/* ── MAIN LAYOUT ── */
-.main {
-  position: relative;
-  z-index: 5;
-  padding: 28px 32px;
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 20px;
-  max-width: 1400px;
+.nav-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* Container */
+.container {
+  max-width: 1600px;
   margin: 0 auto;
+  padding: 40px;
 }
 
-/* ── PATHWAY PANEL ── */
-.pathway-panel { display: flex; flex-direction: column; gap: 16px; }
+/* Tab Content */
+.tab-content {
+  display: none;
+}
 
-/* ── CARDS ── */
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards */
 .card {
-  background: var(--panel);
+  background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px 22px;
-  position: relative;
-  overflow: hidden;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
 }
 
 .card-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
   text-transform: uppercase;
+  letter-spacing: 1.5px;
   color: var(--label);
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.card-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
+  margin-bottom: 12px;
 }
 
-/* ── PATHWAY HEADER CARD ── */
+/* Pathway Header Card */
 .pathway-header-card {
-  background: linear-gradient(135deg, #13131f 0%, #0f1020 100%);
-  border-color: rgba(255,61,61,0.2);
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+  border: 2px solid var(--accent);
 }
 
 .pathway-title-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  align-items: flex-start;
+  margin-bottom: 24px;
 }
 
 .pathway-name {
-  font-family: 'Bebas Neue', cursive;
-  font-size: 52px;
-  letter-spacing: 4px;
-  color: var(--text);
-  line-height: 1;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  letter-spacing: 2px;
+  color: var(--accent);
 }
 
 .ads-live-badge {
-  text-align: right;
-}
-.ads-live-num {
-  font-family: 'Bebas Neue', cursive;
-  font-size: 64px;
-  color: var(--hot);
-  line-height: 1;
-  text-shadow: 0 0 40px rgba(255,61,61,0.4);
-}
-.ads-live-label {
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--label);
-  text-align: right;
-}
-
-/* ── STATS ROW ── */
-.stats-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.stat-block {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border);
+  text-align: center;
+  padding: 16px;
+  background: rgba(255, 71, 87, 0.1);
+  border: 1px solid var(--accent);
   border-radius: 8px;
-  padding: 14px 16px;
   position: relative;
 }
 
-.stat-block.earn { border-color: rgba(0,230,118,0.2); }
-.stat-block.spend { border-color: rgba(255,61,61,0.15); }
-.stat-block.roas { border-color: rgba(255,212,77,0.2); }
+.ads-live-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 72px;
+  color: var(--accent);
+  line-height: 1;
+}
 
-.stat-label {
-  font-size: 10px;
-  letter-spacing: 2px;
+.ads-live-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
   text-transform: uppercase;
+  letter-spacing: 1px;
   color: var(--label);
-  margin-bottom: 6px;
+  margin-top: 8px;
+}
+
+/* Stats Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  text-align: center;
 }
 
 .stat-value {
-  font-family: 'Bebas Neue', cursive;
-  font-size: 32px;
-  letter-spacing: 1px;
-  line-height: 1;
-}
-
-.stat-value.earn { color: var(--green); }
-.stat-value.spend { color: var(--text); }
-.stat-value.roas { color: var(--gold); }
-
-.stat-sub {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 4px;
-}
-
-.stat-input {
-  background: none;
-  border: none;
-  font-family: 'Bebas Neue', cursive;
-  font-size: 32px;
-  letter-spacing: 1px;
-  line-height: 1;
-  width: 100%;
-  outline: none;
-  cursor: text;
-}
-.stat-input.earn { color: var(--green); }
-.stat-input.spend { color: var(--text); }
-.stat-input.roas { color: var(--gold); }
-.stat-input::placeholder { color: rgba(255,255,255,0.1); }
-
-/* ── CREATIVE SPLIT ── */
-.split-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.split-block {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 14px 16px;
-}
-
-.split-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.split-type {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
   color: var(--text);
+  margin-bottom: 4px;
 }
 
-.split-count {
-  font-family: 'Bebas Neue', cursive;
-  font-size: 24px;
-  color: var(--gold);
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--label);
 }
 
-.split-bar-wrap {
-  background: rgba(255,255,255,0.05);
-  border-radius: 4px;
-  height: 6px;
-  margin-bottom: 6px;
-  overflow: hidden;
+.stat-value.green { color: var(--green); }
+.stat-value.gold { color: var(--gold); }
+.stat-value.red { color: var(--hot); }
+
+/* Creative Split */
+.creative-split {
+  margin-bottom: 24px;
 }
 
 .split-bar {
-  height: 6px;
-  border-radius: 4px;
-  transition: width 0.6s ease;
+  display: flex;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 12px;
 }
-.split-bar.reels { background: linear-gradient(90deg, var(--hot), #ff8c42); }
-.split-bar.statics { background: linear-gradient(90deg, var(--cold), #7b9fff); }
 
-.split-historic {
-  font-size: 10px;
+.split-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+
+.split-section:hover {
+  filter: brightness(1.2);
+}
+
+.split-section.reels {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.split-section.statics {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.split-legend {
+  display: flex;
+  gap: 24px;
+  font-size: 13px;
   color: var(--label);
 }
-.split-historic span { color: var(--amber); font-weight: 600; }
 
-/* ── STRATEGY PERFORMANCE ── */
-.strategy-grid {
+.split-legend-item {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 8px;
 }
 
-.strategy-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  transition: all 0.2s;
-  cursor: default;
+.split-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
 }
 
-.strategy-row.hot {
-  background: rgba(255,61,61,0.08);
-  border-color: rgba(255,61,61,0.2);
+/* Strategy Cards */
+.strategies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
 }
-.strategy-row.warm {
-  background: rgba(255,179,0,0.06);
-  border-color: rgba(255,179,0,0.15);
+
+.strategy-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
 }
-.strategy-row.cold {
-  background: rgba(255,255,255,0.02);
-  border-color: var(--border);
+
+.strategy-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
 }
+
+.strategy-card.hot::before { background: var(--hot); }
+.strategy-card.warm::before { background: var(--warm); }
+.strategy-card.cold::before { background: var(--cold); }
 
 .strategy-tag {
-  font-family: 'Bebas Neue', cursive;
-  font-size: 18px;
-  letter-spacing: 1px;
-  width: 32px;
-  flex-shrink: 0;
-}
-.strategy-row.hot .strategy-tag { color: var(--hot); }
-.strategy-row.warm .strategy-tag { color: var(--amber); }
-.strategy-row.cold .strategy-tag { color: var(--muted); }
-
-.strategy-desc {
-  flex: 1;
-  font-size: 12px;
-  color: var(--text);
-  line-height: 1.4;
-}
-.strategy-desc span { display: block; font-size: 11px; color: var(--label); margin-top: 1px; }
-
-.heat-indicator {
-  font-size: 16px;
-}
-
-.strategy-note {
-  font-size: 10px;
-  color: var(--muted);
   font-family: 'DM Mono', monospace;
-}
-
-/* ── HISTORIC PERFORMANCE ── */
-.historic-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 10px;
-}
-
-.historic-block {
-  text-align: center;
-  padding: 12px;
-  background: rgba(255,255,255,0.02);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.historic-val {
-  font-family: 'Bebas Neue', cursive;
-  font-size: 22px;
-  line-height: 1;
+  font-size: 14px;
+  font-weight: 700;
   margin-bottom: 4px;
 }
 
-.historic-val.earn { color: var(--green); }
-.historic-val.spend { color: var(--text); }
-.historic-val.roas { color: var(--gold); }
-.historic-val.be {
-  color: var(--hot);
-  font-size: 20px;
+.strategy-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
 }
 
-.historic-lbl {
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+.strategy-desc {
+  font-size: 12px;
   color: var(--label);
 }
 
-.historic-input {
-  background: none;
-  border: none;
-  font-family: 'Bebas Neue', cursive;
-  font-size: 22px;
-  line-height: 1;
-  text-align: center;
-  width: 100%;
-  outline: none;
-  cursor: text;
+.heat-indicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 20px;
 }
-.historic-input.earn { color: var(--green); }
-.historic-input.spend { color: var(--text); }
-.historic-input.roas { color: var(--gold); }
-.historic-input.be { color: var(--hot); font-size: 20px; }
-.historic-input::placeholder { color: rgba(255,255,255,0.08); }
 
-/* ── P0 SUGGESTIONS PANEL ── */
-.suggestions-panel {
-  display: flex;
-  flex-direction: column;
+/* Historic Performance */
+.historic-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  position: sticky;
-  top: 20px;
 }
 
-.p0-header {
+/* Business Health */
+.health-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.metric-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.metric-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--label);
+  margin-bottom: 16px;
+}
+
+.metric-value-big {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.metric-change {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.metric-change.up { color: var(--green); }
+.metric-change.down { color: var(--hot); }
+
+.flags-list {
+  list-style: none;
+  padding: 0;
+}
+
+.flags-list li {
+  padding: 12px 16px;
+  background: var(--bg-elevated);
+  border-left: 4px solid;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.flags-list li.red { border-color: var(--hot); }
+.flags-list li.green { border-color: var(--green); }
+
+/* Competitor Analysis */
+.competitor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.competitor-ad-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+}
+
+.competitor-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.competitor-hook {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.competitor-meta {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 4px;
+  gap: 16px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--label);
 }
 
-.p0-tag {
-  background: var(--p0);
-  color: white;
-  font-family: 'Bebas Neue', cursive;
-  font-size: 16px;
-  letter-spacing: 2px;
-  padding: 3px 10px;
+.competitor-insight {
+  background: rgba(255, 165, 2, 0.1);
+  border-left: 3px solid var(--gold);
+  padding: 12px;
+  font-size: 13px;
+  margin-top: 12px;
   border-radius: 4px;
 }
 
-.p0-title {
-  font-family: 'Bebas Neue', cursive;
-  font-size: 20px;
-  letter-spacing: 2px;
-  color: var(--text);
+/* PapaClaude Section */
+.papa-greeting {
+  font-size: 18px;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: 24px;
+  padding: 20px;
+  background: rgba(255, 165, 2, 0.05);
+  border-left: 4px solid var(--gold);
+  border-radius: 6px;
 }
 
-.p0-subtitle {
-  font-size: 11px;
-  color: var(--muted);
-  margin-bottom: 14px;
-  line-height: 1.5;
+.papa-section {
+  margin-bottom: 32px;
 }
 
-/* suggestion items */
-.suggestion-item {
-  display: flex;
-  gap: 10px;
-  padding: 12px 14px;
+.papa-section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: var(--accent);
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.recommendation-card {
+  background: var(--bg-elevated);
+  border: 2px solid var(--accent);
   border-radius: 8px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.02);
-  margin-bottom: 6px;
-  transition: border-color 0.2s;
+  padding: 20px;
+  margin-bottom: 16px;
 }
 
-.suggestion-item:hover { border-color: rgba(255,61,61,0.3); }
-
-.suggestion-item.scale { border-left: 3px solid var(--green); }
-.suggestion-item.kill { border-left: 3px solid var(--hot); }
-.suggestion-item.iterate { border-left: 3px solid var(--amber); }
-.suggestion-item.headline { border-left: 3px solid var(--cold); }
-.suggestion-item.strategy { border-left: 3px solid #b388ff; }
-.suggestion-item.adset { border-left: 3px solid var(--gold); }
-
-.sug-type {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+.rec-area {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
   text-transform: uppercase;
-  width: 52px;
-  flex-shrink: 0;
-  padding-top: 2px;
-  line-height: 1.3;
-}
-.scale .sug-type { color: var(--green); }
-.kill .sug-type { color: var(--hot); }
-.iterate .sug-type { color: var(--amber); }
-.headline .sug-type { color: var(--cold); }
-.strategy .sug-type { color: #b388ff; }
-.adset .sug-type { color: var(--gold); }
-
-.sug-text {
-  font-size: 12px;
-  color: var(--text);
-  line-height: 1.5;
-  flex: 1;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  margin-bottom: 12px;
 }
 
-.sug-text small {
-  display: block;
-  font-size: 10px;
+.rec-action {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.rec-rationale {
+  font-size: 14px;
   color: var(--label);
-  margin-top: 3px;
+  margin-bottom: 8px;
 }
 
-/* add suggestion */
-.add-sug-btn {
-  width: 100%;
-  padding: 10px;
-  background: rgba(255,61,61,0.06);
-  border: 1px dashed rgba(255,61,61,0.2);
+.rec-impact {
+  font-size: 14px;
+  padding: 12px;
+  background: rgba(255, 71, 87, 0.1);
+  border-radius: 4px;
+}
+
+/* Policeman Section */
+.commitment-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  color: var(--muted);
+  padding: 20px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.commitment-grade {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  opacity: 0.3;
+}
+
+.commitment-grade.A { color: var(--green); opacity: 1; }
+.commitment-grade.B { color: var(--green); }
+.commitment-grade.C { color: var(--gold); }
+.commitment-grade.D { color: var(--hot); }
+.commitment-grade.F { color: var(--hot); opacity: 1; }
+
+.commitment-text {
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding-right: 60px;
+}
+
+.commitment-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.commitment-status.completed { background: rgba(46, 213, 115, 0.2); color: var(--green); }
+.commitment-status.in-progress { background: rgba(255, 165, 2, 0.2); color: var(--gold); }
+.commitment-status.not-started { background: rgba(255, 71, 87, 0.2); color: var(--hot); }
+
+.commitment-evidence {
+  font-size: 13px;
+  color: var(--label);
+  margin-bottom: 8px;
+}
+
+.commitment-notes {
+  font-size: 14px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+}
+
+.accountability-stats {
+  display: flex;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.accountability-stat {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+  background: var(--bg-elevated);
+  border-radius: 6px;
+}
+
+.accountability-stat-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: var(--accent);
+}
+
+.accountability-stat-label {
+  font-family: 'DM Mono', monospace;
   font-size: 12px;
+  color: var(--label);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+
+/* Lander Report Table */
+.lander-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.lander-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--label);
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.lander-table td {
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.lander-table tr:hover {
+  background: var(--bg-elevated);
+}
+
+.lander-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.lander-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.lander-status.above { background: rgba(46, 213, 115, 0.2); color: var(--green); }
+.lander-status.below { background: rgba(255, 71, 87, 0.2); color: var(--hot); }
+
+/* Customer Support */
+.support-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.issue-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.issue-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.issue-count {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.issue-trend {
+  font-size: 12px;
+  color: var(--label);
+}
+
+.sentiment-chart {
+  display: flex;
+  height: 40px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.sentiment-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.sentiment-section.positive { background: var(--green); }
+.sentiment-section.neutral { background: var(--label); }
+.sentiment-section.negative { background: var(--hot); }
+
+/* Meeting Checklist */
+.meeting-checklist {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--bg-card);
+  border-top: 2px solid var(--accent);
+  padding: 16px 40px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  z-index: 100;
+  overflow-x: auto;
+}
+
+.checklist-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--label);
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
-  font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
+  user-select: none;
 }
-.add-sug-btn:hover { border-color: var(--hot); color: var(--hot); }
 
-/* ── MODAL for adding suggestions ── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.8);
-  backdrop-filter: blur(4px);
-  z-index: 100;
+.checklist-item:hover {
+  background: var(--bg);
+  border-color: var(--accent);
+}
+
+.checklist-item.checked {
+  background: rgba(46, 213, 115, 0.1);
+  border-color: var(--green);
+}
+
+.checklist-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.checklist-item.checked .checklist-checkbox {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+
+.checklist-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Modal */
+.modal {
   display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
   align-items: center;
   justify-content: center;
 }
-.modal-overlay.open { display: flex; }
 
-.modal {
-  background: #15151f;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 28px;
-  width: 440px;
-  max-width: 95vw;
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--bg-card);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--label);
+  font-size: 32px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: var(--accent);
 }
 
 .modal-title {
-  font-family: 'Bebas Neue', cursive;
-  font-size: 24px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--accent);
+  margin-bottom: 24px;
   letter-spacing: 2px;
+}
+
+.prompt-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
   margin-bottom: 20px;
-  color: var(--text);
+  max-height: 400px;
+  overflow-y: auto;
 }
 
-.modal select,
-.modal textarea,
-.modal input {
-  width: 100%;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  padding: 10px 12px;
-  margin-bottom: 12px;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.modal select:focus,
-.modal textarea:focus,
-.modal input:focus { border-color: var(--hot); }
-.modal textarea { height: 80px; resize: none; }
-.modal select option { background: #15151f; }
-
-.modal-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
-
-.btn {
-  padding: 9px 20px;
-  border-radius: 7px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s;
-  font-family: 'DM Sans', sans-serif;
-}
-.btn-cancel { background: rgba(255,255,255,0.06); color: var(--label); }
-.btn-cancel:hover { background: rgba(255,255,255,0.1); }
-.btn-add { background: var(--hot); color: white; }
-.btn-add:hover { background: #ff5555; }
-
-/* ── PATHWAY MODAL ── */
-.pathway-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.8);
-  backdrop-filter: blur(4px);
-  z-index: 100;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-.pathway-modal-overlay.open { display: flex; }
-
-/* ── LOCK DECISIONS BAR ── */
-.lock-bar {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: rgba(10,10,15,0.98);
-  border-top: 1px solid var(--border);
-  padding: 14px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 50;
-  backdrop-filter: blur(10px);
-}
-
-.lock-bar-left {
-  font-family: 'Bebas Neue', cursive;
-  font-size: 16px;
-  letter-spacing: 2px;
-  color: var(--label);
-}
-
-.lock-decisions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.lock-chip {
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.03);
-  color: var(--muted);
-  transition: all 0.2s;
-  user-select: none;
-}
-.lock-chip:hover { border-color: var(--amber); color: var(--amber); }
-.lock-chip.locked {
-  background: rgba(0,230,118,0.1);
-  border-color: var(--green);
-  color: var(--green);
-}
-
-.lock-all-btn {
-  padding: 8px 22px;
-  background: var(--hot);
+.copy-btn {
+  background: var(--accent);
   color: white;
   border: none;
-  border-radius: 7px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  letter-spacing: 0.5px;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.lock-all-btn:hover { background: #ff5555; }
-.lock-all-btn.all-locked {
-  background: var(--green);
-}
-
-/* ── EDITABLE FIELDS ── */
-[contenteditable="true"] {
-  outline: none;
-  border-bottom: 1px dashed rgba(255,255,255,0.1);
-  cursor: text;
-  transition: border-color 0.2s;
-}
-[contenteditable="true"]:focus {
-  border-bottom-color: var(--hot);
-}
-
-.edit-hint {
-  font-size: 9px;
-  color: var(--muted);
+  padding: 12px 24px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
   letter-spacing: 1px;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
 }
 
-/* scrollbar */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.copy-btn:hover {
+  background: #ff6b81;
+  transform: scale(1.05);
+}
 
-/* padding for lock bar */
-.main { padding-bottom: 80px; }
+textarea {
+  width: 100%;
+  min-height: 200px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  padding: 16px;
+  border-radius: 6px;
+  resize: vertical;
+}
+
+.step-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: var(--accent);
+  margin: 24px 0 12px 0;
+  letter-spacing: 1px;
+}
+
+.fill-btn {
+  background: var(--green);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.fill-btn:hover {
+  background: #26de81;
+  transform: scale(1.02);
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- Header -->
 <div class="header">
-  <div class="header-left">
-    <div class="logo">FON <span>//</span> WAR ROOM</div>
-    <div class="live-badge"><div class="live-dot"></div>FRIDAY REVIEW</div>
+  <div class="logo">FON WAR ROOM</div>
+  <div class="week-display" id="week-display"></div>
+  <button class="load-data-btn" onclick="openLoadModal()">⚡ LOAD DATA</button>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button class="nav-tab active" onclick="showTab('pathways')">PATHWAYS</button>
+  <button class="nav-tab" onclick="showTab('business')">BUSINESS HEALTH</button>
+  <button class="nav-tab" onclick="showTab('support')">CUSTOMER SUPPORT</button>
+  <button class="nav-tab" onclick="showTab('landers')">LANDER REPORT</button>
+  <button class="nav-tab" onclick="showTab('google')">GOOGLE ADS</button>
+  <button class="nav-tab" onclick="showTab('amazon')">AMAZON ADS</button>
+  <button class="nav-tab" onclick="showTab('competitors')">COMPETITORS</button>
+  <button class="nav-tab" onclick="showTab('papa')">PAPACLAUDE</button>
+  <button class="nav-tab" onclick="showTab('police')">POLICEMAN</button>
+</div>
+
+<!-- Container -->
+<div class="container">
+  
+  <!-- PATHWAYS TAB -->
+  <div id="tab-pathways" class="tab-content active">
+    <div id="pathway-content"></div>
   </div>
-  <div class="header-right">
-    <span class="week-label" id="week-display">WEEK — —</span>
-    <span style="color:var(--border)">|</span>
-    <button onclick="openImportModal()" style="background:rgba(255,212,77,0.12);border:1px solid rgba(255,212,77,0.35);color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;padding:7px 16px;border-radius:7px;cursor:pointer;letter-spacing:0.5px;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,212,77,0.22)'" onmouseout="this.style.background='rgba(255,212,77,0.12)'">⚡ LOAD META DATA</button>
+
+  <!-- BUSINESS HEALTH TAB -->
+  <div id="tab-business" class="tab-content">
+    <div id="business-content"></div>
+  </div>
+
+  <!-- CUSTOMER SUPPORT TAB -->
+  <div id="tab-support" class="tab-content">
+    <div id="support-content"></div>
+  </div>
+
+  <!-- LANDER REPORT TAB -->
+  <div id="tab-landers" class="tab-content">
+    <div id="landers-content"></div>
+  </div>
+
+  <!-- GOOGLE ADS TAB -->
+  <div id="tab-google" class="tab-content">
+    <div id="google-content"></div>
+  </div>
+
+  <!-- AMAZON ADS TAB -->
+  <div id="tab-amazon" class="tab-content">
+    <div id="amazon-content"></div>
+  </div>
+
+  <!-- COMPETITORS TAB -->
+  <div id="tab-competitors" class="tab-content">
+    <div id="competitors-content"></div>
+  </div>
+
+  <!-- PAPACLAUDE TAB -->
+  <div id="tab-papa" class="tab-content">
+    <div id="papa-content"></div>
+  </div>
+
+  <!-- POLICEMAN TAB -->
+  <div id="tab-police" class="tab-content">
+    <div id="police-content"></div>
+  </div>
+
+</div>
+
+<!-- Meeting Checklist -->
+<div class="meeting-checklist">
+  <div class="checklist-label">MEETING AGENDA</div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="checklist-checkbox"></div>
+    <div class="checklist-text">Pathway Review</div>
+  </div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="checklist-checkbox"></div>
+    <div class="checklist-text">7-Day Ad Strategy</div>
+  </div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="checklist-checkbox"></div>
+    <div class="checklist-text">Ops Review</div>
+  </div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="checklist-checkbox"></div>
+    <div class="checklist-text">Google Review</div>
+  </div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="checklist-checkbox"></div>
+    <div class="checklist-text">Amazon Review</div>
+  </div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="checklist-checkbox"></div>
+    <div class="checklist-text">Business Overview</div>
   </div>
 </div>
 
-<!-- PATHWAY TABS -->
-<div class="pathway-nav" id="pathway-nav">
-  <!-- tabs injected by JS -->
-  <button class="add-pathway-btn" onclick="openAddPathway()">+ ADD PATHWAY</button>
-</div>
+<!-- Load Data Modal -->
+<div id="loadModal" class="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeLoadModal()">×</button>
+    <div class="modal-title">LOAD WEEKLY DATA</div>
+    
+    <p style="margin-bottom: 20px; color: var(--label);">
+      Paste the JSON output from Prompt 1 below. The War Room will populate all tabs with your weekly data.
+    </p>
 
-<!-- MAIN CONTENT -->
-<div class="main" id="main-content">
-  <!-- left: pathway panel -->
-  <div class="pathway-panel" id="pathway-panel">
-    <!-- injected by JS -->
-  </div>
-
-  <!-- right: P0 suggestions -->
-  <div class="suggestions-panel" id="suggestions-panel">
-    <div>
-      <div class="p0-header">
-        <div class="p0-tag">P0</div>
-        <div class="p0-title">THIS WEEK'S CALLS</div>
-      </div>
-      <div class="p0-subtitle">High priority actions only. Paste from Prompt 1 output or add manually.</div>
-    </div>
-    <div id="suggestions-list"></div>
-    <button class="add-sug-btn" onclick="openAddSuggestion()">+ Add P0 suggestion</button>
-  </div>
-</div>
-
-<!-- LOCK BAR -->
-<div class="lock-bar">
-  <div class="lock-bar-left">LOCK DECISIONS</div>
-  <div class="lock-decisions" id="lock-decisions">
-    <!-- injected by JS -->
-  </div>
-  <button class="lock-all-btn" id="lock-all-btn" onclick="lockAll()">LOCK ALL</button>
-</div>
-
-<!-- ADD SUGGESTION MODAL -->
-<div class="modal-overlay" id="sug-modal">
-  <div class="modal">
-    <div class="modal-title">ADD P0 SUGGESTION</div>
-    <select id="sug-type">
-      <option value="scale">SCALE</option>
-      <option value="kill">KILL</option>
-      <option value="iterate">ITERATE</option>
-      <option value="headline">HEADLINE OPTION</option>
-      <option value="strategy">NEW STRATEGY</option>
-      <option value="adset">AD SET UPDATE</option>
-    </select>
-    <input type="text" id="sug-title" placeholder="Ad name / concept name..." />
-    <textarea id="sug-body" placeholder="Specific action or recommendation..."></textarea>
-    <div class="modal-btns">
-      <button class="btn btn-cancel" onclick="closeSugModal()">Cancel</button>
-      <button class="btn btn-add" onclick="addSuggestion()">Add</button>
-    </div>
-  </div>
-</div>
-
-<!-- ADD PATHWAY MODAL -->
-<div class="pathway-modal-overlay" id="pathway-modal">
-  <div class="modal">
-    <div class="modal-title">ADD PATHWAY</div>
-    <input type="text" id="new-pathway-name" placeholder="Pathway name e.g. A3, B1..." maxlength="6" style="text-transform:uppercase;font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:3px;" />
-    <input type="text" id="new-pathway-desc" placeholder="Description e.g. OneLife — Avatar 3..." />
-    <div class="modal-btns">
-      <button class="btn btn-cancel" onclick="closePathwayModal()">Cancel</button>
-      <button class="btn btn-add" onclick="addPathway()">Add Pathway</button>
-    </div>
+    <div class="step-title">Paste JSON Here</div>
+    <textarea id="jsonInput" placeholder='{"metadata": {...}, "pathways": [...], ...}'></textarea>
+    
+    <button class="fill-btn" onclick="fillWarRoom()">FILL WAR ROOM</button>
   </div>
 </div>
 
 <script>
-// ── DATA MODEL ──
-const pathways = [
-  {
-    id: 'A1',
-    name: 'A1',
-    desc: 'OneLife — Avatar 3',
-    adsLive: '',
-    earn7: '', spend7: '', roas7: '',
-    reelsLive: '', staticsLive: '',
-    reelsHistoricWin: '55',
-    staticsHistoricWin: '45',
-    reelStrategies: [
-      { tag: 'S3', name: 'Hybrid', desc: 'Hook → Benefit → Proof → CTA', heat: 'hot' },
-      { tag: 'S4', name: 'Authority', desc: 'Expert explanation + deep science', heat: 'warm' },
-    ],
-    staticStrategies: [
-      { tag: 'S3', name: 'Hybrid', desc: 'Hook → Benefit → Proof → CTA', heat: 'hot' },
-      { tag: 'S1', name: 'Benefit-Led', desc: 'Benefit → Positioning → Emotion → Clarity', heat: 'warm' },
-    ],
-    historicEarn: '', historicSpend: '', historicRoas: '',
-    breakevenRoas: '',
-    suggestions: []
-  },
-  {
-    id: 'A2',
-    name: 'A2',
-    desc: 'OneFit — Avatar 1 + 2',
-    adsLive: '',
-    earn7: '', spend7: '', roas7: '',
-    reelsLive: '', staticsLive: '',
-    reelsHistoricWin: '73',
-    staticsHistoricWin: '27',
-    reelStrategies: [
-      { tag: 'S3', name: 'Hybrid', desc: 'Hook → Benefit → Proof → CTA', heat: 'hot' },
-      { tag: 'S2', name: 'Hook-Led', desc: 'Attention → Curiosity → Emotion', heat: 'warm' },
-      { tag: 'S0', name: 'Free For All', desc: 'Creative exploration — no rules', heat: 'cold' },
-    ],
-    staticStrategies: [
-      { tag: 'S1', name: 'Benefit-Led', desc: 'Benefit → Positioning → Emotion → Clarity', heat: 'hot' },
-      { tag: 'S3', name: 'Hybrid', desc: 'Hook → Benefit → Proof → CTA', heat: 'warm' },
-    ],
-    historicEarn: '', historicSpend: '', historicRoas: '',
-    breakevenRoas: '',
-    suggestions: []
-  },
-  {
-    id: 'B2',
-    name: 'B2',
-    desc: 'Retargeting — ATC + IC No Sale',
-    adsLive: '',
-    earn7: '', spend7: '', roas7: '',
-    reelsLive: '', staticsLive: '',
-    reelsHistoricWin: '55',
-    staticsHistoricWin: '45',
-    reelStrategies: [
-      { tag: 'S3', name: 'Hybrid', desc: 'Hook → Benefit → Proof → CTA', heat: 'hot' },
-      { tag: 'S0', name: 'Free For All', desc: 'Creative exploration — no rules', heat: 'warm' },
-    ],
-    staticStrategies: [
-      { tag: 'S1', name: 'Benefit-Led', desc: 'Benefit → Positioning → Emotion → Clarity', heat: 'hot' },
-      { tag: 'S2', name: 'Hook-Led', desc: 'Pattern interrupt + open loop', heat: 'cold' },
-    ],
-    historicEarn: '', historicSpend: '', historicRoas: '',
-    breakevenRoas: '',
-    suggestions: []
-  }
-];
+// Initialize
+let warRoomData = null;
 
-let activePathwayId = 'A1';
-const lockState = {
-  'Product split': false,
-  'Strategy split': false,
-  'Avatar priorities': false,
-  'Format split': false,
-  'LP routing': false,
-  'Ad sets (Akaash)': false,
-  'Kills + scales': false,
-};
-
-// ── WEEK DISPLAY ──
 function getWeekDisplay() {
   const now = new Date();
   const day = now.getDate();
@@ -927,467 +1049,736 @@ function getWeekDisplay() {
 }
 getWeekDisplay();
 
-// ── RENDER TABS ──
-function renderTabs() {
-  const nav = document.getElementById('pathway-nav');
-  const addBtn = nav.querySelector('.add-pathway-btn');
-  nav.querySelectorAll('.pathway-tab').forEach(t => t.remove());
-  pathways.forEach(p => {
-    const btn = document.createElement('button');
-    btn.className = 'pathway-tab' + (p.id === activePathwayId ? ' active' : '');
-    btn.textContent = p.id;
-    btn.onclick = () => { activePathwayId = p.id; renderAll(); };
-    nav.insertBefore(btn, addBtn);
-  });
+function showTab(tabName) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tab-${tabName}`).classList.add('active');
+  event.target.classList.add('active');
 }
 
-// ── RENDER PATHWAY PANEL ──
-function renderPathway() {
-  const p = pathways.find(x => x.id === activePathwayId);
-  if (!p) return;
-  const panel = document.getElementById('pathway-panel');
+function openLoadModal() {
+  document.getElementById('loadModal').classList.add('active');
+}
 
-  const reelPct = parseInt(p.reelsHistoricWin) || 0;
-  const staticPct = parseInt(p.staticsHistoricWin) || 0;
+function closeLoadModal() {
+  document.getElementById('loadModal').classList.remove('active');
+}
 
-  const totalLive = (parseInt(p.reelsLive)||0) + (parseInt(p.staticsLive)||0);
+function fillWarRoom() {
+  const jsonText = document.getElementById('jsonInput').value;
+  try {
+    warRoomData = JSON.parse(jsonText);
+    renderAllTabs();
+    closeLoadModal();
+    alert('✓ War Room loaded successfully!');
+  } catch (e) {
+    alert('Error parsing JSON. Make sure you pasted valid JSON from Prompt 1.');
+    console.error(e);
+  }
+}
 
-  panel.innerHTML = `
-    <!-- PATHWAY HEADER -->
+function renderAllTabs() {
+  if (!warRoomData) return;
+  renderPathways();
+  renderBusinessHealth();
+  renderCustomerSupport();
+  renderLanderReport();
+  renderGoogleAds();
+  renderAmazonAds();
+  renderCompetitors();
+  renderPapaClaude();
+  renderPoliceman();
+}
+
+function toggleCheck(element) {
+  element.classList.toggle('checked');
+  const checkbox = element.querySelector('.checklist-checkbox');
+  if (element.classList.contains('checked')) {
+    checkbox.textContent = '✓';
+  } else {
+    checkbox.textContent = '';
+  }
+}
+
+function renderPathways() {
+  const container = document.getElementById('pathway-content');
+  if (!warRoomData.pathways) {
+    container.innerHTML = '<p>No pathway data available.</p>';
+    return;
+  }
+
+  container.innerHTML = warRoomData.pathways.map(p => `
     <div class="card pathway-header-card">
       <div class="pathway-title-row">
         <div>
-          <div class="pathway-name">${p.name}</div>
-          <div style="font-size:12px;color:var(--label);margin-top:4px;">${p.desc}</div>
+          <div class="pathway-name">${p.id}</div>
+          <div style="font-size:14px;color:var(--label);margin-top:4px;">${p.name}</div>
         </div>
         <div class="ads-live-badge">
-          <div class="ads-live-num" contenteditable="true" oninput="updateField('${p.id}','adsLive',this.innerText)">${p.adsLive || '<span style="opacity:0.15;font-size:40px;">—</span>'}</div>
+          <div class="ads-live-num">${p.adsLive || 0}</div>
           <div class="ads-live-label">Ads Live</div>
-          <div class="edit-hint">✎ click to edit</div>
         </div>
       </div>
-      <!-- 7-DAY STATS -->
+      
       <div class="card-label">Last 7 Days</div>
       <div class="stats-row">
-        <div class="stat-block earn">
+        <div class="stat-box">
+          <div class="stat-value green">${p.earn7d || '$0'}</div>
           <div class="stat-label">Earned</div>
-          <input class="stat-input earn" placeholder="$0" value="${p.earn7}" oninput="updateField('${p.id}','earn7',this.value)" />
-          <div class="stat-sub">revenue 7d</div>
         </div>
-        <div class="stat-block spend">
+        <div class="stat-box">
+          <div class="stat-value gold">${p.spend7d || '$0'}</div>
           <div class="stat-label">Spent</div>
-          <input class="stat-input spend" placeholder="$0" value="${p.spend7}" oninput="updateField('${p.id}','spend7',this.value)" />
-          <div class="stat-sub">ad spend 7d</div>
         </div>
-        <div class="stat-block roas">
+        <div class="stat-box">
+          <div class="stat-value">${p.roas7d || '0.0'}x</div>
           <div class="stat-label">ROAS</div>
-          <input class="stat-input roas" placeholder="0.0x" value="${p.roas7}" oninput="updateField('${p.id}','roas7',this.value)" />
-          <div class="stat-sub">7-day blended</div>
         </div>
       </div>
-    </div>
 
-    <!-- CREATIVE SPLIT -->
-    <div class="card">
-      <div class="card-label">Creative Split — Live This Week</div>
-      <div class="split-row">
-        <div class="split-block">
-          <div class="split-header">
-            <div class="split-type">🎬 Reels</div>
-            <input style="background:none;border:none;font-family:'Bebas Neue',cursive;font-size:24px;color:var(--gold);width:60px;text-align:right;outline:none;" placeholder="0" value="${p.reelsLive}" oninput="updateField('${p.id}','reelsLive',this.value)" />
+      <div class="creative-split">
+        <div class="card-label">Creative Split (Live)</div>
+        <div class="split-bar">
+          <div class="split-section reels" style="width: ${p.reelsLive || 0}%">
+            ${p.reelsLive || 0} Reels
           </div>
-          <div class="split-bar-wrap">
-            <div class="split-bar reels" style="width:${reelPct}%"></div>
+          <div class="split-section statics" style="width: ${p.staticsLive || 0}%">
+            ${p.staticsLive || 0} Statics
           </div>
-          <div class="split-historic">Historic win rate: <span>${reelPct}%</span></div>
         </div>
-        <div class="split-block">
-          <div class="split-header">
-            <div class="split-type">🖼 Statics</div>
-            <input style="background:none;border:none;font-family:'Bebas Neue',cursive;font-size:24px;color:var(--gold);width:60px;text-align:right;outline:none;" placeholder="0" value="${p.staticsLive}" oninput="updateField('${p.id}','staticsLive',this.value)" />
+        <div class="split-legend">
+          <div class="split-legend-item">
+            <div class="split-dot" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+            Reels (${p.reelsHistoricWin || '0'}% historic win rate)
           </div>
-          <div class="split-bar-wrap">
-            <div class="split-bar statics" style="width:${staticPct}%"></div>
+          <div class="split-legend-item">
+            <div class="split-dot" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+            Statics (${p.staticsHistoricWin || '0'}% historic win rate)
           </div>
-          <div class="split-historic">Historic win rate: <span>${staticPct}%</span></div>
         </div>
       </div>
-    </div>
 
-    <!-- STRATEGY PERFORMANCE -->
-    <div class="card">
-      <div class="card-label">🎬 Reel Strategies — What's Working</div>
-      <div class="strategy-grid">
-        ${p.reelStrategies.map(s => renderStrategyRow(s)).join('')}
+      <div class="card-label">Reel Strategies</div>
+      <div class="strategies-grid">
+        ${(p.reelStrategies || []).map(s => `
+          <div class="strategy-card ${s.heat}">
+            <span class="heat-indicator">${s.heat === 'hot' ? '🔥' : s.heat === 'warm' ? '⚡' : '❄️'}</span>
+            <div class="strategy-tag">${s.tag}</div>
+            <div class="strategy-name">${s.name}</div>
+            <div class="strategy-desc">${s.desc}</div>
+          </div>
+        `).join('')}
       </div>
-    </div>
-    <div class="card">
-      <div class="card-label">🖼 Static Strategies — What's Working</div>
-      <div class="strategy-grid">
-        ${p.staticStrategies.map(s => renderStrategyRow(s)).join('')}
-      </div>
-    </div>
 
-    <!-- HISTORIC PERFORMANCE -->
-    <div class="card">
-      <div class="card-label">Historic Performance — All Time</div>
-      <div class="historic-row">
-        <div class="historic-block">
-          <input class="historic-input earn" placeholder="$—" value="${p.historicEarn}" oninput="updateField('${p.id}','historicEarn',this.value)" />
-          <div class="historic-lbl">Total Earned</div>
-        </div>
-        <div class="historic-block">
-          <input class="historic-input spend" placeholder="$—" value="${p.historicSpend}" oninput="updateField('${p.id}','historicSpend',this.value)" />
-          <div class="historic-lbl">Total Spent</div>
-        </div>
-        <div class="historic-block">
-          <input class="historic-input roas" placeholder="0.0x" value="${p.historicRoas}" oninput="updateField('${p.id}','historicRoas',this.value)" />
-          <div class="historic-lbl">Historic ROAS</div>
-        </div>
-        <div class="historic-block">
-          <input class="historic-input be" placeholder="0.0x" value="${p.breakevenRoas}" oninput="updateField('${p.id}','breakevenRoas',this.value)" />
-          <div class="historic-lbl">Breakeven ROAS</div>
-        </div>
+      <div class="card-label" style="margin-top: 20px;">Static Strategies</div>
+      <div class="strategies-grid">
+        ${(p.staticStrategies || []).map(s => `
+          <div class="strategy-card ${s.heat}">
+            <span class="heat-indicator">${s.heat === 'hot' ? '🔥' : s.heat === 'warm' ? '⚡' : '❄️'}</span>
+            <div class="strategy-tag">${s.tag}</div>
+            <div class="strategy-name">${s.name}</div>
+            <div class="strategy-desc">${s.desc}</div>
+          </div>
+        `).join('')}
       </div>
-    </div>
-  `;
-}
 
-function renderStrategyRow(s) {
-  const icons = { hot: '🔥', warm: '⚡', cold: '❄️' };
-  return `
-    <div class="strategy-row ${s.heat}">
-      <div class="strategy-tag">${s.tag}</div>
-      <div class="strategy-desc">
-        ${s.name}
-        <span>${s.desc}</span>
-      </div>
-      <div class="heat-indicator">${icons[s.heat]}</div>
-    </div>
-  `;
-}
+      ${p.sampleSizeWarning ? `
+        <div style="margin-top: 20px; padding: 16px; background: rgba(255, 165, 2, 0.1); border-left: 4px solid var(--gold); border-radius: 4px; font-size: 13px;">
+          ⚠ ${p.sampleSizeWarning}
+        </div>
+      ` : ''}
 
-// ── RENDER SUGGESTIONS ──
-function renderSuggestions() {
-  const p = pathways.find(x => x.id === activePathwayId);
-  const list = document.getElementById('suggestions-list');
-  if (!p || p.suggestions.length === 0) {
-    list.innerHTML = `<div style="font-size:12px;color:var(--muted);text-align:center;padding:20px 0;border:1px dashed var(--border);border-radius:8px;">No P0 suggestions yet.<br>Paste from Prompt 1 output or add manually.</div>`;
-    return;
-  }
-  list.innerHTML = p.suggestions.map((s, i) => `
-    <div class="suggestion-item ${s.type}" style="position:relative;">
-      <div class="sug-type">${s.type.toUpperCase()}</div>
-      <div class="sug-text">
-        <strong>${s.title}</strong>
-        <small>${s.body}</small>
-      </div>
-      <div onclick="removeSuggestion('${p.id}', ${i})" style="position:absolute;top:8px;right:8px;cursor:pointer;color:var(--muted);font-size:14px;line-height:1;" title="Remove">×</div>
+      ${(p.suggestions || []).length > 0 ? `
+        <div class="card-label" style="margin-top: 24px;">P0 Suggestions</div>
+        <ul class="flags-list">
+          ${p.suggestions.map(s => `<li>${s}</li>`).join('')}
+        </ul>
+      ` : ''}
     </div>
   `).join('');
 }
 
-// ── RENDER LOCK BAR ──
-function renderLockBar() {
-  const container = document.getElementById('lock-decisions');
-  container.innerHTML = '';
-  Object.entries(lockState).forEach(([label, locked]) => {
-    const chip = document.createElement('div');
-    chip.className = 'lock-chip' + (locked ? ' locked' : '');
-    chip.textContent = (locked ? '✓ ' : '') + label;
-    chip.onclick = () => { lockState[label] = !locked; renderLockBar(); };
-    container.appendChild(chip);
-  });
-  const allLocked = Object.values(lockState).every(Boolean);
-  const btn = document.getElementById('lock-all-btn');
-  btn.className = 'lock-all-btn' + (allLocked ? ' all-locked' : '');
-  btn.textContent = allLocked ? '✓ ALL LOCKED' : 'LOCK ALL';
-}
-
-function lockAll() {
-  Object.keys(lockState).forEach(k => lockState[k] = true);
-  renderLockBar();
-}
-
-// ── UPDATE FIELD ──
-function updateField(pathwayId, field, value) {
-  const p = pathways.find(x => x.id === pathwayId);
-  if (p) p[field] = value.trim();
-}
-
-// ── SUGGESTION MODAL ──
-function openAddSuggestion() {
-  document.getElementById('sug-modal').classList.add('open');
-  document.getElementById('sug-title').focus();
-}
-function closeSugModal() {
-  document.getElementById('sug-modal').classList.remove('open');
-  document.getElementById('sug-title').value = '';
-  document.getElementById('sug-body').value = '';
-}
-function addSuggestion() {
-  const p = pathways.find(x => x.id === activePathwayId);
-  const type = document.getElementById('sug-type').value;
-  const title = document.getElementById('sug-title').value.trim();
-  const body = document.getElementById('sug-body').value.trim();
-  if (!title) return;
-  p.suggestions.push({ type, title, body });
-  closeSugModal();
-  renderSuggestions();
-}
-function removeSuggestion(pathwayId, index) {
-  const p = pathways.find(x => x.id === pathwayId);
-  p.suggestions.splice(index, 1);
-  renderSuggestions();
-}
-
-// ── PATHWAY MODAL ──
-function openAddPathway() {
-  document.getElementById('pathway-modal').classList.add('open');
-  document.getElementById('new-pathway-name').focus();
-}
-function closePathwayModal() {
-  document.getElementById('pathway-modal').classList.remove('open');
-  document.getElementById('new-pathway-name').value = '';
-  document.getElementById('new-pathway-desc').value = '';
-}
-function addPathway() {
-  const name = document.getElementById('new-pathway-name').value.trim().toUpperCase();
-  const desc = document.getElementById('new-pathway-desc').value.trim();
-  if (!name) return;
-  pathways.push({
-    id: name, name, desc: desc || 'New pathway',
-    adsLive: '', earn7: '', spend7: '', roas7: '',
-    reelsLive: '', staticsLive: '',
-    reelsHistoricWin: '50', staticsHistoricWin: '50',
-    reelStrategies: [
-      { tag: 'S3', name: 'Hybrid', desc: 'Hook → Benefit → Proof → CTA', heat: 'warm' },
-    ],
-    staticStrategies: [
-      { tag: 'S1', name: 'Benefit-Led', desc: 'Benefit → Positioning → Emotion → Clarity', heat: 'warm' },
-    ],
-    historicEarn: '', historicSpend: '', historicRoas: '',
-    breakevenRoas: '',
-    suggestions: []
-  });
-  activePathwayId = name;
-  closePathwayModal();
-  renderAll();
-}
-
-// close modals on overlay click
-document.getElementById('sug-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeSugModal();
-});
-document.getElementById('pathway-modal').addEventListener('click', function(e) {
-  if (e.target === this) closePathwayModal();
-});
-
-// ── RENDER ALL ──
-function renderAll() {
-  renderTabs();
-  renderPathway();
-  renderSuggestions();
-  renderLockBar();
-}
-
-renderAll();
-</script>
-
-<!-- IMPORT MODAL — JSON PASTE -->
-<div class="modal-overlay" id="import-modal" style="display:none;align-items:center;justify-content:center;z-index:200;">
-  <div class="modal" style="width:660px;max-width:96vw;max-height:90vh;overflow-y:auto;">
-
-    <!-- STEP INDICATOR -->
-    <div style="display:flex;gap:8px;margin-bottom:20px;">
-      <div id="step-ind-1" style="flex:1;height:3px;border-radius:2px;background:var(--hot);transition:background 0.3s;"></div>
-      <div id="step-ind-2" style="flex:1;height:3px;border-radius:2px;background:var(--border);transition:background 0.3s;"></div>
-    </div>
-
-    <!-- STEP 1: COPY PROMPT -->
-    <div id="import-step1">
-      <div class="modal-title">STEP 1 — GET YOUR DATA</div>
-      <div style="font-size:12px;color:var(--label);margin-bottom:16px;line-height:1.7;">
-        Copy the prompt below, then open a <strong style="color:var(--text);">new Claude chat</strong>. Paste the prompt, then paste your Meta CSV underneath it. Claude will output a JSON block. Come back here for Step 2.
-      </div>
-
-      <!-- PROMPT BOX -->
-      <div style="position:relative;margin-bottom:14px;">
-        <div style="background:#0d0d18;border:1px solid var(--border);border-radius:8px;padding:16px;font-family:'DM Mono',monospace;font-size:11px;color:#c8c8e0;line-height:1.8;max-height:260px;overflow-y:auto;white-space:pre-wrap;" id="eve-prompt-box"></div>
-        <button onclick="copyEvePrompt(this)" style="position:absolute;top:10px;right:10px;background:var(--hot);color:white;border:none;padding:5px 12px;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;">Copy</button>
-      </div>
-
-      <div style="background:rgba(255,212,77,0.08);border:1px solid rgba(255,212,77,0.2);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--amber);line-height:1.6;margin-bottom:16px;">
-        ⚠ Your ad set names must include the pathway code at the front — e.g. <strong>A1 - General Ads Batch 53</strong> or <strong>B2 - Retargeting ATC</strong>. If they don't yet, fill in the panels manually this week and rename them in Meta before next Friday.
-      </div>
-
-      <div class="modal-btns">
-        <button class="btn btn-cancel" onclick="closeImportModal()">Cancel</button>
-        <button class="btn btn-add" onclick="goToStep2()">I've got the JSON — Next →</button>
-      </div>
-    </div>
-
-    <!-- STEP 2: PASTE JSON -->
-    <div id="import-step2" style="display:none;">
-      <div class="modal-title">STEP 2 — PASTE THE JSON</div>
-      <div style="font-size:12px;color:var(--label);margin-bottom:14px;line-height:1.7;">
-        Copy the JSON block from Claude's response and paste it below. It should start with <code style="color:var(--gold);">{</code> and end with <code style="color:var(--gold);">}</code>.
-      </div>
-      <textarea id="json-input" style="height:200px;font-family:'DM Mono',monospace;font-size:11px;resize:vertical;" placeholder='Paste JSON here...&#10;&#10;{&#10;  "pathways": [&#10;    {&#10;      "id": "A1",&#10;      "adsLive": "47",&#10;      ...&#10;    }&#10;  ]&#10;}'></textarea>
-      <div id="import-status" style="font-size:12px;min-height:18px;margin:8px 0;"></div>
-      <div class="modal-btns">
-        <button class="btn btn-cancel" onclick="goToStep1()">← Back</button>
-        <button class="btn btn-add" onclick="applyJSON()">Fill Panels</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<script>
-// ── EVE'S PROMPT ──
-const evePrompt = `You are analysing a Meta Business Manager CSV export for First or Nothing (FON).
-
-ACTIVE PATHWAYS: A1, B2
-(Add more pathway codes here as new ones open e.g. A2, B1 etc.)
-
-NAMING CONVENTION: Each ad set name starts with the pathway code.
-Examples: "A1 - General Ads Batch 53", "B2 - Retargeting ATC 30D"
-Use the ad set name to determine which pathway each ad belongs to.
-
-CSV DATA:
-[PASTE YOUR META CSV HERE — delete this line and paste the CSV]
-
-YOUR TASK: For each active pathway calculate:
-1. adsLive — count of unique ads with delivery status "Active" (not paused/off)
-2. earn7 — total purchase conversion value (revenue) — format as $X,XXX
-3. spend7 — total amount spent — format as $X,XXX
-4. roas7 — earn7 divided by spend7 — format as X.Xx
-5. reelsLive — count of active ads with "-R-" in the ad name (Reels)
-6. staticsLive — count of active ads with "-S-" in the ad name (Statics)
-
-If a value cannot be determined from the CSV use "" (empty string).
-
-Respond ONLY with raw JSON — no explanation, no markdown, no code fences.
-
-{
-  "pathways": [
-    {
-      "id": "A1",
-      "adsLive": "47",
-      "earn7": "$12,450",
-      "spend7": "$4,200",
-      "roas7": "2.96x",
-      "reelsLive": "30",
-      "staticsLive": "17"
-    },
-    {
-      "id": "B2",
-      "adsLive": "12",
-      "earn7": "$3,100",
-      "spend7": "$980",
-      "roas7": "3.16x",
-      "reelsLive": "6",
-      "staticsLive": "6"
-    }
-  ],
-  "notes": "Any important observations — data gaps, unusual spend, pathway not found etc."
-}`;
-
-document.getElementById('eve-prompt-box').textContent = evePrompt;
-
-function copyEvePrompt(btn) {
-  navigator.clipboard.writeText(evePrompt).then(() => {
-    btn.textContent = 'Copied ✓';
-    setTimeout(() => btn.textContent = 'Copy', 2000);
-  }).catch(() => {
-    const ta = document.createElement('textarea');
-    ta.value = evePrompt;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    btn.textContent = 'Copied ✓';
-    setTimeout(() => btn.textContent = 'Copy', 2000);
-  });
-}
-
-// ── MODAL NAVIGATION ──
-function openImportModal() {
-  goToStep1();
-  document.getElementById('import-modal').style.display = 'flex';
-}
-function closeImportModal() {
-  document.getElementById('import-modal').style.display = 'none';
-  document.getElementById('json-input').value = '';
-  setImportStatus('', '');
-}
-function goToStep1() {
-  document.getElementById('import-step1').style.display = 'block';
-  document.getElementById('import-step2').style.display = 'none';
-  document.getElementById('step-ind-1').style.background = 'var(--hot)';
-  document.getElementById('step-ind-2').style.background = 'var(--border)';
-}
-function goToStep2() {
-  document.getElementById('import-step1').style.display = 'none';
-  document.getElementById('import-step2').style.display = 'block';
-  document.getElementById('step-ind-1').style.background = 'var(--green)';
-  document.getElementById('step-ind-2').style.background = 'var(--hot)';
-  document.getElementById('json-input').focus();
-}
-document.getElementById('import-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeImportModal();
-});
-
-// ── APPLY JSON ──
-function applyJSON() {
-  const raw = document.getElementById('json-input').value.trim();
-  if (!raw) { setImportStatus('⚠ Please paste the JSON from Claude first.', 'var(--amber)'); return; }
-
-  let result;
-  try {
-    const clean = raw.replace(/```json|```/g, '').trim();
-    result = JSON.parse(clean);
-  } catch(e) {
-    setImportStatus('❌ Could not read that JSON. Make sure you copied the full block starting with { and ending with }', 'var(--hot)');
+function renderBusinessHealth() {
+  const container = document.getElementById('business-content');
+  if (!warRoomData.businessHealth) {
+    container.innerHTML = '<p>No business health data available.</p>';
     return;
   }
 
-  let filled = 0;
-  result.pathways.forEach(item => {
-    const p = pathways.find(x => x.id === item.id);
-    if (p) {
-      if (item.adsLive)     p.adsLive     = item.adsLive;
-      if (item.earn7)       p.earn7       = item.earn7;
-      if (item.spend7)      p.spend7      = item.spend7;
-      if (item.roas7)       p.roas7       = item.roas7;
-      if (item.reelsLive)   p.reelsLive   = item.reelsLive;
-      if (item.staticsLive) p.staticsLive = item.staticsLive;
-      filled++;
-    }
-  });
+  const bh = warRoomData.businessHealth;
+  container.innerHTML = `
+    <div class="health-grid">
+      <div class="metric-card">
+        <div class="metric-title">Revenue</div>
+        <div class="metric-value-big">${bh.revenue?.thisWeek || '$0'}</div>
+        <div class="metric-change ${bh.revenue?.percentChange?.startsWith('+') ? 'up' : 'down'}">
+          ${bh.revenue?.percentChange || '0%'} vs last week
+        </div>
+        <div style="margin-top: 12px; font-size: 13px; color: var(--label);">
+          Target: ${bh.revenue?.target || '$0'} • Status: ${bh.revenue?.status || 'unknown'}
+        </div>
+      </div>
 
-  const notes = result.notes ? ` — ${result.notes}` : '';
-  setImportStatus(`✅ ${filled} pathway${filled !== 1 ? 's' : ''} filled in.${notes}`, 'var(--green)');
-  renderAll();
-  setTimeout(() => closeImportModal(), 2200);
+      <div class="metric-card">
+        <div class="metric-title">Subscriptions</div>
+        <div class="metric-value-big">${bh.subscriptions?.newSubs || 0}</div>
+        <div style="font-size: 14px; color: var(--label); margin-top: 8px;">
+          New Subs This Week
+        </div>
+        <div style="margin-top: 16px; font-size: 13px;">
+          <div>Churn: <strong>${bh.subscriptions?.churnRate || '0%'}</strong></div>
+          <div>LTV: <strong>${bh.subscriptions?.ltv || '$0'}</strong></div>
+          <div>30D Retention: <strong>${bh.subscriptions?.retention30d || '0%'}</strong></div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-title">Product Split</div>
+        <div class="split-bar" style="margin-top: 12px;">
+          <div class="split-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: ${bh.productSplit?.oneFit || '0'}%;">
+            OneFit ${bh.productSplit?.oneFit || '0'}%
+          </div>
+          <div class="split-section" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); width: ${bh.productSplit?.oneLife || '0'}%;">
+            OneLife ${bh.productSplit?.oneLife || '0'}%
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-title">Average Order Value</div>
+        <div class="metric-value-big">${bh.aov?.current || '$0'}</div>
+        <div style="font-size: 13px; color: var(--label); margin-top: 8px;">
+          Target: ${bh.aov?.target || '$0'} • Trend: ${bh.aov?.trend || 'stable'}
+        </div>
+      </div>
+    </div>
+
+    ${(bh.keyMetrics || []).length > 0 ? `
+      <div class="card" style="margin-top: 24px;">
+        <div class="card-label">Key Metrics</div>
+        <ul class="flags-list">
+          ${bh.keyMetrics.map(m => `<li>${m}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+
+    ${(bh.redFlags || []).length > 0 ? `
+      <div class="card" style="margin-top: 24px;">
+        <div class="card-label">Red Flags</div>
+        <ul class="flags-list">
+          ${bh.redFlags.map(f => `<li class="red">${f}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+
+    ${(bh.greenFlags || []).length > 0 ? `
+      <div class="card" style="margin-top: 24px;">
+        <div class="card-label">Green Flags</div>
+        <ul class="flags-list">
+          ${bh.greenFlags.map(f => `<li class="green">${f}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+  `;
 }
 
-function setImportStatus(msg, color) {
-  const el = document.getElementById('import-status');
-  el.textContent = msg;
-  el.style.color = color;
+function renderCustomerSupport() {
+  const container = document.getElementById('support-content');
+  if (!warRoomData.customerSupport) {
+    container.innerHTML = '<p>No customer support data available.</p>';
+    return;
+  }
+
+  const cs = warRoomData.customerSupport;
+  container.innerHTML = `
+    <div class="stats-row" style="margin-bottom: 24px;">
+      <div class="stat-box">
+        <div class="stat-value">${cs.totalTickets || 0}</div>
+        <div class="stat-label">Total Tickets</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value gold">${cs.avgResolutionTime || '0'}</div>
+        <div class="stat-label">Avg Resolution Time</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value green">${cs.sentiment?.positive || '0'}%</div>
+        <div class="stat-label">Positive Sentiment</div>
+      </div>
+    </div>
+
+    ${cs.sentiment ? `
+      <div class="card">
+        <div class="card-label">Sentiment Breakdown</div>
+        <div class="sentiment-chart">
+          <div class="sentiment-section positive" style="width: ${cs.sentiment.positive || 0}%">
+            ${cs.sentiment.positive || 0}% Positive
+          </div>
+          <div class="sentiment-section neutral" style="width: ${cs.sentiment.neutral || 0}%">
+            ${cs.sentiment.neutral || 0}% Neutral
+          </div>
+          <div class="sentiment-section negative" style="width: ${cs.sentiment.negative || 0}%">
+            ${cs.sentiment.negative || 0}% Negative
+          </div>
+        </div>
+      </div>
+    ` : ''}
+
+    ${(cs.topIssues || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">Top Issues</div>
+        ${cs.topIssues.map(issue => `
+          <div class="issue-card">
+            <div class="issue-title">${issue.issue}</div>
+            <div class="issue-count">${issue.count}</div>
+            <div class="issue-trend">Trend: ${issue.trend}</div>
+            <div style="margin-top: 12px; font-size: 13px; color: var(--label);">${issue.impact}</div>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+
+    ${(cs.insights || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">Key Insights</div>
+        <ul class="flags-list">
+          ${cs.insights.map(i => `<li>${i}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+
+    ${(cs.productFeedback || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">Product Feedback</div>
+        <ul class="flags-list">
+          ${cs.productFeedback.map(f => `<li>${f}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+  `;
 }
 
-// ── RENDER ALL ──
-function renderAll() {
-  renderTabs();
-  renderPathway();
-  renderSuggestions();
-  renderLockBar();
+function renderLanderReport() {
+  const container = document.getElementById('landers-content');
+  if (!warRoomData.landerReport || warRoomData.landerReport.length === 0) {
+    container.innerHTML = '<p>No lander data available.</p>';
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="card">
+      <table class="lander-table">
+        <thead>
+          <tr>
+            <th>Lander</th>
+            <th>Product</th>
+            <th>Conv. Rate</th>
+            <th>Benchmark</th>
+            <th>Status</th>
+            <th>Traffic</th>
+            <th>Bounce Rate</th>
+            <th>Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${warRoomData.landerReport.map(l => `
+            <tr>
+              <td><div class="lander-name">${l.name}</div></td>
+              <td>${l.product}</td>
+              <td><strong>${l.conversionRate}</strong></td>
+              <td>${l.benchmark}</td>
+              <td><span class="lander-status ${l.status}">${l.status}</span></td>
+              <td>${l.traffic}</td>
+              <td>${l.bounceRate || 'N/A'}</td>
+              <td>${l.recommendation}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
 }
 
-renderAll();
+function renderGoogleAds() {
+  const container = document.getElementById('google-content');
+  if (!warRoomData.googleAds) {
+    container.innerHTML = '<p>No Google Ads data available.</p>';
+    return;
+  }
+
+  const ga = warRoomData.googleAds;
+  container.innerHTML = `
+    <div class="stats-row" style="margin-bottom: 24px;">
+      <div class="stat-box">
+        <div class="stat-value gold">${ga.totalSpend || '$0'}</div>
+        <div class="stat-label">Total Spend</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value green">${ga.totalRevenue || '$0'}</div>
+        <div class="stat-label">Total Revenue</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">${ga.roas || '0.0'}x</div>
+        <div class="stat-label">ROAS</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">${ga.conversions || 0}</div>
+        <div class="stat-label">Conversions</div>
+      </div>
+    </div>
+
+    ${ga.weekOverWeek ? `
+      <div class="card">
+        <div class="card-label">Week-over-Week Performance</div>
+        <div class="stats-row">
+          <div class="metric-card">
+            <div class="metric-title">Spend Change</div>
+            <div class="metric-change ${ga.weekOverWeek.spendChange?.startsWith('+') ? 'up' : 'down'}">
+              ${ga.weekOverWeek.spendChange || '0%'}
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-title">Revenue Change</div>
+            <div class="metric-change ${ga.weekOverWeek.revenueChange?.startsWith('+') ? 'up' : 'down'}">
+              ${ga.weekOverWeek.revenueChange || '0%'}
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-title">ROAS Change</div>
+            <div class="metric-change ${ga.weekOverWeek.roasChange?.startsWith('+') ? 'up' : 'down'}">
+              ${ga.weekOverWeek.roasChange || '0%'}
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; font-size: 14px; color: var(--label);">
+          Trend: <strong>${ga.weekOverWeek.trend || 'stable'}</strong>
+        </div>
+      </div>
+    ` : ''}
+
+    ${(ga.topCampaigns || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">Top Campaigns</div>
+        <div class="strategies-grid">
+          ${ga.topCampaigns.map(c => `
+            <div class="strategy-card ${c.status}">
+              <span class="heat-indicator">${c.status === 'hot' ? '🔥' : c.status === 'warm' ? '⚡' : '❄️'}</span>
+              <div class="strategy-name">${c.name}</div>
+              <div style="font-size: 12px; margin-top: 8px; color: var(--label);">
+                <div>Spend: <strong>${c.spend}</strong></div>
+                <div>Revenue: <strong>${c.revenue}</strong></div>
+                <div>ROAS: <strong>${c.roas}x</strong></div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    ${(ga.recommendations || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">P0 Recommendations</div>
+        <ul class="flags-list">
+          ${ga.recommendations.map(r => `<li class="red">${r}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+  `;
+}
+
+function renderAmazonAds() {
+  const container = document.getElementById('amazon-content');
+  if (!warRoomData.amazonAds) {
+    container.innerHTML = '<p>No Amazon Ads data available.</p>';
+    return;
+  }
+
+  const aa = warRoomData.amazonAds;
+  container.innerHTML = `
+    <div class="stats-row" style="margin-bottom: 24px;">
+      <div class="stat-box">
+        <div class="stat-value gold">${aa.totalSpend || '$0'}</div>
+        <div class="stat-label">Total Spend</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value green">${aa.totalRevenue || '$0'}</div>
+        <div class="stat-label">Total Revenue</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">${aa.acos || '0'}%</div>
+        <div class="stat-label">ACOS</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">${aa.conversions || 0}</div>
+        <div class="stat-label">Conversions</div>
+      </div>
+    </div>
+
+    ${aa.weekOverWeek ? `
+      <div class="card">
+        <div class="card-label">Week-over-Week Performance</div>
+        <div class="stats-row">
+          <div class="metric-card">
+            <div class="metric-title">Spend Change</div>
+            <div class="metric-change ${aa.weekOverWeek.spendChange?.startsWith('+') ? 'up' : 'down'}">
+              ${aa.weekOverWeek.spendChange || '0%'}
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-title">Revenue Change</div>
+            <div class="metric-change ${aa.weekOverWeek.revenueChange?.startsWith('+') ? 'up' : 'down'}">
+              ${aa.weekOverWeek.revenueChange || '0%'}
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-title">ACOS Change</div>
+            <div class="metric-change ${aa.weekOverWeek.acosChange?.startsWith('-') ? 'up' : 'down'}">
+              ${aa.weekOverWeek.acosChange || '0%'}
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; font-size: 14px; color: var(--label);">
+          Trend: <strong>${aa.weekOverWeek.trend || 'stable'}</strong>
+        </div>
+      </div>
+    ` : ''}
+
+    ${(aa.topCampaigns || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">Top Campaigns</div>
+        <div class="strategies-grid">
+          ${aa.topCampaigns.map(c => `
+            <div class="strategy-card ${c.status}">
+              <span class="heat-indicator">${c.status === 'hot' ? '🔥' : c.status === 'warm' ? '⚡' : '❄️'}</span>
+              <div class="strategy-name">${c.name}</div>
+              <div style="font-size: 12px; margin-top: 8px; color: var(--label);">
+                <div>Spend: <strong>${c.spend}</strong></div>
+                <div>Revenue: <strong>${c.revenue}</strong></div>
+                <div>ACOS: <strong>${c.acos}%</strong></div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    ${(aa.recommendations || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">P0 Recommendations</div>
+        <ul class="flags-list">
+          ${aa.recommendations.map(r => `<li class="red">${r}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+  `;
+}
+
+function renderCompetitors() {
+  const container = document.getElementById('competitors-content');
+  if (!warRoomData.competitorAnalysis) {
+    container.innerHTML = '<p>No competitor data available.</p>';
+    return;
+  }
+
+  const ca = warRoomData.competitorAnalysis;
+  container.innerHTML = `
+    ${(ca.topAds || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">Top Competitor Ads</div>
+        <div class="competitor-grid">
+          ${ca.topAds.map(ad => `
+            <div class="competitor-ad-card">
+              <div class="competitor-brand">${ad.brand}</div>
+              <div class="competitor-meta">
+                <span>${ad.adType}</span>
+                <span>•</span>
+                <span>${ad.format}</span>
+                <span>•</span>
+                <span>${ad.engagement}</span>
+              </div>
+              <div class="competitor-hook">"${ad.hook}"</div>
+              <div style="font-size: 13px; color: var(--label); margin-bottom: 12px;">
+                <strong>Angle:</strong> ${ad.angle}
+              </div>
+              <div class="competitor-insight">
+                <strong>What works:</strong> ${ad.whatWorks}<br><br>
+                <strong>Adapt idea:</strong> ${ad.adaptIdea}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    ${(ca.marketTrends || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">Market Trends</div>
+        <ul class="flags-list">
+          ${ca.marketTrends.map(t => `<li>${t}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+
+    ${(ca.gaps || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">Gaps & Opportunities</div>
+        <ul class="flags-list">
+          ${ca.gaps.map(g => `<li>${g}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+
+    ${(ca.recommendations || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">P0 Recommendations</div>
+        <ul class="flags-list">
+          ${ca.recommendations.map(r => `<li class="red">${r}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+  `;
+}
+
+function renderPapaClaude() {
+  const container = document.getElementById('papa-content');
+  if (!warRoomData.papaClaude) {
+    container.innerHTML = '<p>No PapaClaude data available.</p>';
+    return;
+  }
+
+  const pc = warRoomData.papaClaude;
+  container.innerHTML = `
+    ${pc.greeting ? `
+      <div class="papa-greeting">${pc.greeting}</div>
+    ` : ''}
+
+    ${(pc.businessWideObservations || []).length > 0 ? `
+      <div class="papa-section">
+        <div class="papa-section-title">Business-Wide Observations</div>
+        <ul class="flags-list">
+          ${pc.businessWideObservations.map(o => `<li>${o}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+
+    ${(pc.strategicConcerns || []).length > 0 ? `
+      <div class="papa-section">
+        <div class="papa-section-title">Strategic Concerns</div>
+        <ul class="flags-list">
+          ${pc.strategicConcerns.map(c => `<li class="red">${c}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+
+    ${(pc.p0Recommendations || []).length > 0 ? `
+      <div class="papa-section">
+        <div class="papa-section-title">P0 Recommendations</div>
+        ${pc.p0Recommendations.map(rec => `
+          <div class="recommendation-card">
+            <div class="rec-area">${rec.area}</div>
+            <div class="rec-action">${rec.recommendation}</div>
+            <div class="rec-rationale">${rec.rationale}</div>
+            <div class="rec-impact"><strong>Impact:</strong> ${rec.impact}</div>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+
+    ${(pc.opportunities || []).length > 0 ? `
+      <div class="papa-section">
+        <div class="papa-section-title">Opportunities</div>
+        <ul class="flags-list">
+          ${pc.opportunities.map(o => `<li class="green">${o}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+
+    ${pc.closingThought ? `
+      <div class="papa-greeting" style="margin-top: 32px;">
+        ${pc.closingThought}
+      </div>
+    ` : ''}
+  `;
+}
+
+function renderPoliceman() {
+  const container = document.getElementById('police-content');
+  if (!warRoomData.policeman) {
+    container.innerHTML = '<p>No policeman data available.</p>';
+    return;
+  }
+
+  const pm = warRoomData.policeman;
+  container.innerHTML = `
+    ${pm.accountability ? `
+      <div class="accountability-stats">
+        <div class="accountability-stat">
+          <div class="accountability-stat-value">${pm.accountability.totalCommitments || 0}</div>
+          <div class="accountability-stat-label">Total Commitments</div>
+        </div>
+        <div class="accountability-stat">
+          <div class="accountability-stat-value">${pm.accountability.completed || 0}</div>
+          <div class="accountability-stat-label">Completed</div>
+        </div>
+        <div class="accountability-stat">
+          <div class="accountability-stat-value">${pm.accountability.completionRate || '0%'}</div>
+          <div class="accountability-stat-label">Completion Rate</div>
+        </div>
+      </div>
+    ` : ''}
+
+    ${(pm.lastWeekCommitments || []).length > 0 ? `
+      <div class="card" style="margin-top: 24px;">
+        <div class="card-label">Last Week's Commitments</div>
+        ${pm.lastWeekCommitments.map(c => `
+          <div class="commitment-card">
+            <div class="commitment-grade ${c.grade}">${c.grade}</div>
+            <div class="commitment-text">${c.commitment}</div>
+            <span class="commitment-status ${c.status.replace(' ', '-').toLowerCase()}">${c.status}</span>
+            <div class="commitment-evidence"><strong>Evidence:</strong> ${c.evidence}</div>
+            <div class="commitment-notes">${c.notes}</div>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+
+    ${(pm.redFlags || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">Red Flags</div>
+        <ul class="flags-list">
+          ${pm.redFlags.map(f => `<li class="red">${f}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+
+    ${(pm.greenFlags || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">Green Flags</div>
+        <ul class="flags-list">
+          ${pm.greenFlags.map(f => `<li class="green">${f}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+
+    ${(pm.feedback || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">Feedback</div>
+        <ul class="flags-list">
+          ${pm.feedback.map(f => `<li>${f}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+
+    ${(pm.nextWeekFocus || []).length > 0 ? `
+      <div class="card">
+        <div class="card-label">Next Week Focus</div>
+        <ul class="flags-list">
+          ${pm.nextWeekFocus.map(f => `<li class="green">${f}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+  `;
+}
 </script>
+
 </body>
 </html>
