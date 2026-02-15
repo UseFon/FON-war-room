@@ -5,1780 +5,582 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FON War Room</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@700&display=swap');
 
 :root {
-  --bg: #0a0a0a;
-  --bg-card: #141414;
-  --bg-elevated: #1a1a1a;
-  --border: #2a2a2a;
-  --text: #e8e8e8;
-  --label: #888888;
-  --accent: #ff4757;
-  --green: #2ed573;
-  --gold: #ffa502;
-  --hot: #ff4757;
-  --warm: #ffa502;
-  --cold: #70a1ff;
+  --bg: #f8f9fb;
+  --bg-card: #ffffff;
+  --bg-elevated: #f3f4f6;
+  --bg-dark: #0f1116;
+  --bg-dark-card: #1a1d24;
+  --border: #e5e7eb;
+  --border-light: #f0f1f3;
+  --text: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --accent: #ef4444;
+  --accent-soft: rgba(239, 68, 68, 0.08);
+  --green: #10b981;
+  --green-soft: rgba(16, 185, 129, 0.08);
+  --gold: #f59e0b;
+  --gold-soft: rgba(245, 158, 11, 0.08);
+  --blue: #3b82f6;
+  --blue-soft: rgba(59, 130, 246, 0.08);
+  --hot: #ef4444;
+  --warm: #f59e0b;
+  --cold: #3b82f6;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
+  --shadow-xl: 0 10px 25px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Animated grid background */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 50px 50px;
-  opacity: 0.3;
-  z-index: -1;
-  animation: gridMove 20s linear infinite;
-}
-
-@keyframes gridMove {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(50px, 50px); }
-}
-
-/* Header */
+/* ==================== HEADER ==================== */
 .header {
-  background: var(--bg-elevated);
-  border-bottom: 2px solid var(--accent);
-  padding: 20px 40px;
+  background: var(--bg-dark);
+  padding: 0 32px;
+  height: 64px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   position: sticky;
   top: 0;
   z-index: 100;
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
 .logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 32px;
-  letter-spacing: 2px;
-  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo-wordmark {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.14em;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.logo-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255,255,255,0.15);
+}
+
+.logo-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .week-display {
-  font-family: 'DM Mono', monospace;
-  font-size: 14px;
-  color: var(--label);
-  letter-spacing: 1px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.5px;
+  padding: 4px 12px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 6px;
 }
 
 .load-data-btn {
   background: var(--accent);
   color: white;
   border: none;
-  padding: 12px 24px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 16px;
-  letter-spacing: 1px;
+  padding: 8px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s ease;
+  border-radius: 8px;
+  letter-spacing: -0.01em;
 }
 
 .load-data-btn:hover {
-  background: #ff6b81;
-  transform: scale(1.05);
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
-/* Navigation */
+/* ==================== NAVIGATION ==================== */
 .nav {
   background: var(--bg-card);
   border-bottom: 1px solid var(--border);
-  padding: 0 40px;
+  padding: 0 32px;
   display: flex;
-  gap: 4px;
+  gap: 0;
   overflow-x: auto;
+  box-shadow: var(--shadow-sm);
 }
 
 .nav-tab {
   background: transparent;
   border: none;
-  color: var(--label);
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px;
-  letter-spacing: 1px;
-  padding: 16px 24px;
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 16px 20px;
   cursor: pointer;
-  border-bottom: 3px solid transparent;
-  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease;
   white-space: nowrap;
+  letter-spacing: -0.01em;
 }
 
 .nav-tab:hover {
   color: var(--text);
-  background: rgba(255, 71, 87, 0.05);
 }
 
 .nav-tab.active {
   color: var(--accent);
   border-bottom-color: var(--accent);
+  font-weight: 600;
 }
 
-/* Container */
+/* ==================== CONTAINER ==================== */
 .container {
-  max-width: 1600px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 40px;
+  padding: 32px;
 }
 
-/* Tab Content */
-.tab-content {
-  display: none;
-}
-
+/* ==================== TAB CONTENT ==================== */
+.tab-content { display: none; }
 .tab-content.active {
   display: block;
-  animation: fadeIn 0.3s;
+  animation: fadeUp 0.25s ease;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Cards */
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 24px;
+/* ==================== SECTION HEADER ==================== */
+.section-header {
   margin-bottom: 24px;
 }
 
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.section-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* ==================== CARDS ==================== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.15s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
 .card-label {
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--label);
-  margin-bottom: 12px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
 }
 
-/* Pathway Header Card */
-.pathway-header-card {
-  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
-  border: 2px solid var(--accent);
+/* ==================== STAT GRID ==================== */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-.pathway-title-row {
+.stat-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.15s ease;
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow);
+  border-color: #d1d5db;
+}
+
+.stat-card .stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.stat-card .stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1;
+}
+
+.stat-card .stat-change {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.stat-change.up { color: var(--green); background: var(--green-soft); }
+.stat-change.down { color: var(--accent); background: var(--accent-soft); }
+.stat-change.neutral { color: var(--text-secondary); background: var(--bg-elevated); }
+
+.stat-value.green { color: var(--green); }
+.stat-value.red { color: var(--accent); }
+.stat-value.gold { color: var(--gold); }
+.stat-value.blue { color: var(--blue); }
+
+/* ==================== PATHWAY CARDS ==================== */
+.pathway-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.pathway-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+}
+
+.pathway-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 24px;
 }
 
-.pathway-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 48px;
-  letter-spacing: 2px;
-  color: var(--accent);
+.pathway-id {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
 }
 
-.ads-live-badge {
-  text-align: center;
-  padding: 16px;
-  background: rgba(255, 71, 87, 0.1);
-  border: 1px solid var(--accent);
-  border-radius: 8px;
-  position: relative;
+.pathway-name {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.ads-live-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 100px;
 }
 
 .ads-live-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 72px;
+  font-size: 24px;
+  font-weight: 800;
   color: var(--accent);
+  letter-spacing: -0.03em;
   line-height: 1;
 }
 
 .ads-live-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--label);
-  margin-top: 8px;
-}
-
-/* Stats Row */
-.stats-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.stat-box {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 16px;
-  text-align: center;
-}
-
-.stat-value {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 36px;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-
-.stat-label {
-  font-family: 'DM Mono', monospace;
   font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--label);
+  letter-spacing: 0.04em;
 }
 
-.stat-value.green { color: var(--green); }
-.stat-value.gold { color: var(--gold); }
-.stat-value.red { color: var(--hot); }
-
-/* Creative Split */
-.creative-split {
-  margin-bottom: 24px;
+/* Creative Split Bar */
+.split-bar-container {
+  margin: 20px 0 16px;
 }
 
 .split-bar {
   display: flex;
-  height: 60px;
-  border-radius: 6px;
+  height: 40px;
+  border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 12px;
+  gap: 2px;
 }
 
 .split-section {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px;
-  letter-spacing: 1px;
-  transition: all 0.3s;
-  cursor: pointer;
-  position: relative;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.2s;
+  cursor: default;
 }
 
-.split-section:hover {
-  filter: brightness(1.2);
-}
-
-.split-section.reels {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.split-section.statics {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-}
+.split-section.reels { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+.split-section.statics { background: linear-gradient(135deg, #ec4899, #f43f5e); }
 
 .split-legend {
   display: flex;
-  gap: 24px;
-  font-size: 13px;
-  color: var(--label);
+  gap: 20px;
+  margin-top: 10px;
 }
 
 .split-legend-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
 }
 
 .split-dot {
-  width: 12px;
-  height: 12px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
 }
 
-/* Strategy Cards */
+/* ==================== STRATEGY CARDS ==================== */
+.strategies-section {
+  margin-top: 20px;
+}
+
 .strategies-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 12px;
+  margin-top: 12px;
 }
 
-.strategy-card {
+.strategy-chip {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 16px;
+  border-radius: var(--radius);
+  padding: 14px 16px;
   position: relative;
-  overflow: hidden;
+  transition: all 0.15s ease;
 }
 
-.strategy-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
+.strategy-chip:hover {
+  border-color: #d1d5db;
+  box-shadow: var(--shadow-sm);
 }
 
-.strategy-card.hot::before { background: var(--hot); }
-.strategy-card.warm::before { background: var(--warm); }
-.strategy-card.cold::before { background: var(--cold); }
+.strategy-chip .heat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
 
-.strategy-tag {
-  font-family: 'DM Mono', monospace;
+.heat-dot.hot { background: var(--hot); box-shadow: 0 0 6px rgba(239,68,68,0.4); }
+.heat-dot.warm { background: var(--warm); box-shadow: 0 0 6px rgba(245,158,11,0.4); }
+.heat-dot.cold { background: var(--cold); box-shadow: 0 0 6px rgba(59,130,246,0.4); }
+
+.strategy-chip .strat-name {
   font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.strategy-name {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.strategy-desc {
-  font-size: 12px;
-  color: var(--label);
-}
-
-.heat-indicator {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 20px;
-}
-
-/* Historic Performance */
-.historic-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-/* Business Health */
-.health-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
-
-.metric-card {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 20px;
-}
-
-.metric-title {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--label);
-  margin-bottom: 16px;
-}
-
-.metric-value-big {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 48px;
+  font-weight: 600;
   color: var(--text);
-  margin-bottom: 8px;
+  letter-spacing: -0.01em;
 }
 
-.metric-change {
-  font-size: 14px;
-  font-weight: 600;
+.strategy-chip .strat-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
 }
 
-.metric-change.up { color: var(--green); }
-.metric-change.down { color: var(--hot); }
-
-.flags-list {
-  list-style: none;
-  padding: 0;
-}
-
-.flags-list li {
-  padding: 12px 16px;
-  background: var(--bg-elevated);
-  border-left: 4px solid;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.flags-list li.red { border-color: var(--hot); }
-.flags-list li.green { border-color: var(--green); }
-
-/* Competitor Analysis */
-.competitor-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 20px;
-}
-
-.competitor-ad-card {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  position: relative;
-}
-
-.competitor-brand {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 20px;
-  color: var(--gold);
-  margin-bottom: 12px;
-}
-
-.competitor-hook {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 12px;
+.strategy-chip .strat-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 6px;
   line-height: 1.5;
 }
 
-.competitor-meta {
+/* ==================== WARNING BANNER ==================== */
+.warning-banner {
   display: flex;
-  gap: 16px;
-  margin-bottom: 12px;
-  font-size: 12px;
-  color: var(--label);
-}
-
-.competitor-insight {
-  background: rgba(255, 165, 2, 0.1);
-  border-left: 3px solid var(--gold);
-  padding: 12px;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 18px;
+  background: var(--gold-soft);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius);
   font-size: 13px;
-  margin-top: 12px;
-  border-radius: 4px;
-}
-
-/* PapaClaude Section */
-.papa-greeting {
-  font-size: 18px;
-  font-style: italic;
-  color: var(--gold);
-  margin-bottom: 24px;
-  padding: 20px;
-  background: rgba(255, 165, 2, 0.05);
-  border-left: 4px solid var(--gold);
-  border-radius: 6px;
-}
-
-.papa-section {
-  margin-bottom: 32px;
-}
-
-.papa-section-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 24px;
-  color: var(--accent);
-  margin-bottom: 16px;
-  letter-spacing: 1px;
-}
-
-.recommendation-card {
-  background: var(--bg-elevated);
-  border: 2px solid var(--accent);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 16px;
-}
-
-.rec-area {
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--accent);
-  margin-bottom: 12px;
-}
-
-.rec-action {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.rec-rationale {
-  font-size: 14px;
-  color: var(--label);
-  margin-bottom: 8px;
-}
-
-.rec-impact {
-  font-size: 14px;
-  padding: 12px;
-  background: rgba(255, 71, 87, 0.1);
-  border-radius: 4px;
-}
-
-/* Policeman Section */
-.commitment-card {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 16px;
-  position: relative;
-}
-
-.commitment-grade {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 48px;
-  opacity: 0.3;
-}
-
-.commitment-grade.A { color: var(--green); opacity: 1; }
-.commitment-grade.B { color: var(--green); }
-.commitment-grade.C { color: var(--gold); }
-.commitment-grade.D { color: var(--hot); }
-.commitment-grade.F { color: var(--hot); opacity: 1; }
-
-.commitment-text {
-  font-weight: 600;
-  margin-bottom: 12px;
-  padding-right: 60px;
-}
-
-.commitment-status {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.commitment-status.completed { background: rgba(46, 213, 115, 0.2); color: var(--green); }
-.commitment-status.in-progress { background: rgba(255, 165, 2, 0.2); color: var(--gold); }
-.commitment-status.not-started { background: rgba(255, 71, 87, 0.2); color: var(--hot); }
-
-.commitment-evidence {
-  font-size: 13px;
-  color: var(--label);
-  margin-bottom: 8px;
-}
-
-.commitment-notes {
-  font-size: 14px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 4px;
-}
-
-.accountability-stats {
-  display: flex;
-  gap: 32px;
-  margin-top: 24px;
-}
-
-.accountability-stat {
-  flex: 1;
-  text-align: center;
-  padding: 20px;
-  background: var(--bg-elevated);
-  border-radius: 6px;
-}
-
-.accountability-stat-value {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 48px;
-  color: var(--accent);
-}
-
-.accountability-stat-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  color: var(--label);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-top: 8px;
-}
-
-/* Lander Report Table */
-.lander-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.lander-table th {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--label);
-  text-align: left;
-  padding: 12px;
-  border-bottom: 1px solid var(--border);
-}
-
-.lander-table td {
-  padding: 16px 12px;
-  border-bottom: 1px solid var(--border);
-  font-size: 14px;
-}
-
-.lander-table tr:hover {
-  background: var(--bg-elevated);
-}
-
-.lander-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 20px;
-  color: var(--accent);
-}
-
-.lander-status {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 600;
-}
-
-.lander-status.above { background: rgba(46, 213, 115, 0.2); color: var(--green); }
-.lander-status.below { background: rgba(255, 71, 87, 0.2); color: var(--hot); }
-
-/* Customer Support */
-.support-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
-.issue-card {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 16px;
-  margin-bottom: 12px;
-}
-
-.issue-title {
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.issue-count {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 32px;
-  color: var(--accent);
-  margin-bottom: 4px;
-}
-
-.issue-trend {
-  font-size: 12px;
-  color: var(--label);
-}
-
-.sentiment-chart {
-  display: flex;
-  height: 40px;
-  border-radius: 6px;
-  overflow: hidden;
-  margin-top: 12px;
-}
-
-.sentiment-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.sentiment-section.positive { background: var(--green); }
-.sentiment-section.neutral { background: var(--label); }
-.sentiment-section.negative { background: var(--hot); }
-
-/* Meeting Checklist */
-.meeting-checklist {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: var(--bg-card);
-  border-top: 2px solid var(--accent);
-  padding: 16px 40px;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  z-index: 100;
-  overflow-x: auto;
-}
-
-.checklist-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--label);
-  white-space: nowrap;
-  margin-right: 8px;
-}
-
-.checklist-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-  user-select: none;
-}
-
-.checklist-item:hover {
-  background: var(--bg);
-  border-color: var(--accent);
-}
-
-.checklist-item.checked {
-  background: rgba(46, 213, 115, 0.1);
-  border-color: var(--green);
-}
-
-.checklist-checkbox {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--border);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  font-size: 14px;
-}
-
-.checklist-item.checked .checklist-checkbox {
-  background: var(--green);
-  border-color: var(--green);
-  color: white;
-}
-
-.checklist-text {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.9);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal.active {
-  display: flex;
-}
-
-.modal-content {
-  background: var(--bg-card);
-  border: 2px solid var(--accent);
-  border-radius: 12px;
-  padding: 40px;
-  max-width: 800px;
-  max-height: 90vh;
-  overflow-y: auto;
-  position: relative;
-}
-
-.modal-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: var(--label);
-  font-size: 32px;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.modal-close:hover {
-  color: var(--accent);
-}
-
-.modal-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 32px;
-  color: var(--accent);
-  margin-bottom: 24px;
-  letter-spacing: 2px;
-}
-
-.prompt-box {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  padding: 20px;
-  border-radius: 6px;
-  font-family: 'DM Mono', monospace;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.copy-btn {
-  background: var(--accent);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 16px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s;
-}
-
-.copy-btn:hover {
-  background: #ff6b81;
-  transform: scale(1.05);
-}
-
-textarea {
-  width: 100%;
-  min-height: 200px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-family: 'DM Mono', monospace;
-  font-size: 13px;
-  padding: 16px;
-  border-radius: 6px;
-  resize: vertical;
-}
-
-.step-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 20px;
-  color: var(--accent);
-  margin: 24px 0 12px 0;
-  letter-spacing: 1px;
-}
-
-.fill-btn {
-  background: var(--green);
-  color: white;
-  border: none;
-  padding: 16px 32px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s;
-  width: 100%;
+  color: #92400e;
   margin-top: 16px;
+  line-height: 1.5;
 }
 
-.fill-btn:hover {
-  background: #26de81;
-  transform: scale(1.02);
-}
-</style>
-</head>
-<body>
-
-<!-- Header -->
-<div class="header">
-  <div class="logo">FON WAR ROOM</div>
-  <div class="week-display" id="week-display"></div>
-  <button class="load-data-btn" onclick="openLoadModal()">⚡ LOAD DATA</button>
-</div>
-
-<!-- Navigation -->
-<div class="nav">
-  <button class="nav-tab active" onclick="showTab('pathways')">PATHWAYS</button>
-  <button class="nav-tab" onclick="showTab('business')">BUSINESS HEALTH</button>
-  <button class="nav-tab" onclick="showTab('support')">CUSTOMER SUPPORT</button>
-  <button class="nav-tab" onclick="showTab('landers')">LANDER REPORT</button>
-  <button class="nav-tab" onclick="showTab('google')">GOOGLE ADS</button>
-  <button class="nav-tab" onclick="showTab('amazon')">AMAZON ADS</button>
-  <button class="nav-tab" onclick="showTab('competitors')">COMPETITORS</button>
-  <button class="nav-tab" onclick="showTab('papa')">PAPACLAUDE</button>
-  <button class="nav-tab" onclick="showTab('police')">POLICEMAN</button>
-</div>
-
-<!-- Container -->
-<div class="container">
-  
-  <!-- PATHWAYS TAB -->
-  <div id="tab-pathways" class="tab-content active">
-    <div id="pathway-content"></div>
-  </div>
-
-  <!-- BUSINESS HEALTH TAB -->
-  <div id="tab-business" class="tab-content">
-    <div id="business-content"></div>
-  </div>
-
-  <!-- CUSTOMER SUPPORT TAB -->
-  <div id="tab-support" class="tab-content">
-    <div id="support-content"></div>
-  </div>
-
-  <!-- LANDER REPORT TAB -->
-  <div id="tab-landers" class="tab-content">
-    <div id="landers-content"></div>
-  </div>
-
-  <!-- GOOGLE ADS TAB -->
-  <div id="tab-google" class="tab-content">
-    <div id="google-content"></div>
-  </div>
-
-  <!-- AMAZON ADS TAB -->
-  <div id="tab-amazon" class="tab-content">
-    <div id="amazon-content"></div>
-  </div>
-
-  <!-- COMPETITORS TAB -->
-  <div id="tab-competitors" class="tab-content">
-    <div id="competitors-content"></div>
-  </div>
-
-  <!-- PAPACLAUDE TAB -->
-  <div id="tab-papa" class="tab-content">
-    <div id="papa-content"></div>
-  </div>
-
-  <!-- POLICEMAN TAB -->
-  <div id="tab-police" class="tab-content">
-    <div id="police-content"></div>
-  </div>
-
-</div>
-
-<!-- Meeting Checklist -->
-<div class="meeting-checklist">
-  <div class="checklist-label">MEETING AGENDA</div>
-  <div class="checklist-item" onclick="toggleCheck(this)">
-    <div class="checklist-checkbox"></div>
-    <div class="checklist-text">Pathway Review</div>
-  </div>
-  <div class="checklist-item" onclick="toggleCheck(this)">
-    <div class="checklist-checkbox"></div>
-    <div class="checklist-text">7-Day Ad Strategy</div>
-  </div>
-  <div class="checklist-item" onclick="toggleCheck(this)">
-    <div class="checklist-checkbox"></div>
-    <div class="checklist-text">Ops Review</div>
-  </div>
-  <div class="checklist-item" onclick="toggleCheck(this)">
-    <div class="checklist-checkbox"></div>
-    <div class="checklist-text">Google Review</div>
-  </div>
-  <div class="checklist-item" onclick="toggleCheck(this)">
-    <div class="checklist-checkbox"></div>
-    <div class="checklist-text">Amazon Review</div>
-  </div>
-  <div class="checklist-item" onclick="toggleCheck(this)">
-    <div class="checklist-checkbox"></div>
-    <div class="checklist-text">Business Overview</div>
-  </div>
-</div>
-
-<!-- Load Data Modal -->
-<div id="loadModal" class="modal">
-  <div class="modal-content">
-    <button class="modal-close" onclick="closeLoadModal()">×</button>
-    <div class="modal-title">LOAD WEEKLY DATA</div>
-    
-    <p style="margin-bottom: 20px; color: var(--label);">
-      Paste the JSON output from Prompt 1 below. The War Room will populate all tabs with your weekly data.
-    </p>
-
-    <div class="step-title">Paste JSON Here</div>
-    <textarea id="jsonInput" placeholder='{"metadata": {...}, "pathways": [...], ...}'></textarea>
-    
-    <button class="fill-btn" onclick="fillWarRoom()">FILL WAR ROOM</button>
-  </div>
-</div>
-
-<script>
-// Initialize
-let warRoomData = null;
-
-function getWeekDisplay() {
-  const now = new Date();
-  const day = now.getDate();
-  const month = now.toLocaleString('en-AU', { month: 'short' }).toUpperCase();
-  const year = now.getFullYear();
-  document.getElementById('week-display').textContent = `WEEK OF ${day} ${month} ${year}`;
-}
-getWeekDisplay();
-
-function showTab(tabName) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(`tab-${tabName}`).classList.add('active');
-  event.target.classList.add('active');
+.warning-banner .warn-icon {
+  flex-shrink: 0;
+  font-size: 16px;
 }
 
-function openLoadModal() {
-  document.getElementById('loadModal').classList.add('active');
+/* ==================== FLAGS LIST ==================== */
+.flags-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-function closeLoadModal() {
-  document.getElementById('loadModal').classList.remove('active');
+.flag-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  border: 1px solid transparent;
+  transition: all 0.15s;
 }
 
-function fillWarRoom() {
-  const jsonText = document.getElementById('jsonInput').value;
-  try {
-    warRoomData = JSON.parse(jsonText);
-    renderAllTabs();
-    closeLoadModal();
-    alert('✓ War Room loaded successfully!');
-  } catch (e) {
-    alert('Error parsing JSON. Make sure you pasted valid JSON from Prompt 1.');
-    console.error(e);
-  }
+.flag-item:hover { border-color: var(--border); }
+
+.flag-item .flag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 7px;
+  flex-shrink: 0;
 }
 
-function renderAllTabs() {
-  if (!warRoomData) return;
-  renderPathways();
-  renderBusinessHealth();
-  renderCustomerSupport();
-  renderLanderReport();
-  renderGoogleAds();
-  renderAmazonAds();
-  renderCompetitors();
-  renderPapaClaude();
-  renderPoliceman();
+.flag-item.red .flag-dot { background: var(--accent); }
+.flag-item.green .flag-dot { background: var(--green); }
+.flag-item .flag-dot { background: var(--text-muted); }
+
+.flag-item.red { background: var(--accent-soft); }
+.flag-item.green { background: var(--green-soft); }
+
+/* ==================== DATA TABLE ==================== */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-function toggleCheck(element) {
-  element.classList.toggle('checked');
-  const checkbox = element.querySelector('.checklist-checkbox');
-  if (element.classList.contains('checked')) {
-    checkbox.textContent = '✓';
-  } else {
-    checkbox.textContent = '';
-  }
+.data-table thead th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
 }
 
-function renderPathways() {
-  const container = document.getElementById('pathway-content');
-  if (!warRoomData.pathways) {
-    container.innerHTML = '<p>No pathway data available.</p>';
-    return;
-  }
+.data-table thead th:first-child { border-radius: var(--radius) 0 0 0; }
+.data-table thead th:last-child { border-radius: 0 var(--radius) 0 0; }
 
-  container.innerHTML = warRoomData.pathways.map(p => `
-    <div class="card pathway-header-card">
-      <div class="pathway-title-row">
-        <div>
-          <div class="pathway-name">${p.id}</div>
-          <div style="font-size:14px;color:var(--label);margin-top:4px;">${p.name}</div>
-        </div>
-        <div class="ads-live-badge">
-          <div class="ads-live-num">${p.adsLive || 0}</div>
-          <div class="ads-live-label">Ads Live</div>
-        </div>
-      </div>
-      
-      <div class="card-label">Last 7 Days</div>
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-value green">${p.earn7d || '$0'}</div>
-          <div class="stat-label">Earned</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">${p.spend7d || '$0'}</div>
-          <div class="stat-label">Spent</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value">${p.roas7d || '0.0'}x</div>
-          <div class="stat-label">ROAS</div>
-        </div>
-      </div>
-
-      <div class="creative-split">
-        <div class="card-label">Creative Split (Live)</div>
-        <div class="split-bar">
-          <div class="split-section reels" style="width: ${p.reelsLive || 0}%">
-            ${p.reelsLive || 0} Reels
-          </div>
-          <div class="split-section statics" style="width: ${p.staticsLive || 0}%">
-            ${p.staticsLive || 0} Statics
-          </div>
-        </div>
-        <div class="split-legend">
-          <div class="split-legend-item">
-            <div class="split-dot" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
-            Reels (${p.reelsHistoricWin || '0'}% historic win rate)
-          </div>
-          <div class="split-legend-item">
-            <div class="split-dot" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
-            Statics (${p.staticsHistoricWin || '0'}% historic win rate)
-          </div>
-        </div>
-      </div>
-
-      <div class="card-label">Reel Strategies</div>
-      <div class="strategies-grid">
-        ${(p.reelStrategies || []).map(s => `
-          <div class="strategy-card ${s.heat}">
-            <span class="heat-indicator">${s.heat === 'hot' ? '🔥' : s.heat === 'warm' ? '⚡' : '❄️'}</span>
-            <div class="strategy-tag">${s.tag}</div>
-            <div class="strategy-name">${s.name}</div>
-            <div class="strategy-desc">${s.desc}</div>
-          </div>
-        `).join('')}
-      </div>
-
-      <div class="card-label" style="margin-top: 20px;">Static Strategies</div>
-      <div class="strategies-grid">
-        ${(p.staticStrategies || []).map(s => `
-          <div class="strategy-card ${s.heat}">
-            <span class="heat-indicator">${s.heat === 'hot' ? '🔥' : s.heat === 'warm' ? '⚡' : '❄️'}</span>
-            <div class="strategy-tag">${s.tag}</div>
-            <div class="strategy-name">${s.name}</div>
-            <div class="strategy-desc">${s.desc}</div>
-          </div>
-        `).join('')}
-      </div>
-
-      ${p.sampleSizeWarning ? `
-        <div style="margin-top: 20px; padding: 16px; background: rgba(255, 165, 2, 0.1); border-left: 4px solid var(--gold); border-radius: 4px; font-size: 13px;">
-          ⚠ ${p.sampleSizeWarning}
-        </div>
-      ` : ''}
-
-      ${(p.suggestions || []).length > 0 ? `
-        <div class="card-label" style="margin-top: 24px;">P0 Suggestions</div>
-        <ul class="flags-list">
-          ${p.suggestions.map(s => `<li>${s}</li>`).join('')}
-        </ul>
-      ` : ''}
-    </div>
-  `).join('');
+.data-table tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 14px;
+  color: var(--text);
 }
 
-function renderBusinessHealth() {
-  const container = document.getElementById('business-content');
-  if (!warRoomData.businessHealth) {
-    container.innerHTML = '<p>No business health data available.</p>';
-    return;
-  }
-
-  const bh = warRoomData.businessHealth;
-  container.innerHTML = `
-    <div class="health-grid">
-      <div class="metric-card">
-        <div class="metric-title">Revenue</div>
-        <div class="metric-value-big">${bh.revenue?.thisWeek || '$0'}</div>
-        <div class="metric-change ${bh.revenue?.percentChange?.startsWith('+') ? 'up' : 'down'}">
-          ${bh.revenue?.percentChange || '0%'} vs last week
-        </div>
-        <div style="margin-top: 12px; font-size: 13px; color: var(--label);">
-          Target: ${bh.revenue?.target || '$0'} • Status: ${bh.revenue?.status || 'unknown'}
-        </div>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-title">Subscriptions</div>
-        <div class="metric-value-big">${bh.subscriptions?.newSubs || 0}</div>
-        <div style="font-size: 14px; color: var(--label); margin-top: 8px;">
-          New Subs This Week
-        </div>
-        <div style="margin-top: 16px; font-size: 13px;">
-          <div>Churn: <strong>${bh.subscriptions?.churnRate || '0%'}</strong></div>
-          <div>LTV: <strong>${bh.subscriptions?.ltv || '$0'}</strong></div>
-          <div>30D Retention: <strong>${bh.subscriptions?.retention30d || '0%'}</strong></div>
-        </div>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-title">Product Split</div>
-        <div class="split-bar" style="margin-top: 12px;">
-          <div class="split-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: ${bh.productSplit?.oneFit || '0'}%;">
-            OneFit ${bh.productSplit?.oneFit || '0'}%
-          </div>
-          <div class="split-section" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); width: ${bh.productSplit?.oneLife || '0'}%;">
-            OneLife ${bh.productSplit?.oneLife || '0'}%
-          </div>
-        </div>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-title">Average Order Value</div>
-        <div class="metric-value-big">${bh.aov?.current || '$0'}</div>
-        <div style="font-size: 13px; color: var(--label); margin-top: 8px;">
-          Target: ${bh.aov?.target || '$0'} • Trend: ${bh.aov?.trend || 'stable'}
-        </div>
-      </div>
-    </div>
-
-    ${(bh.keyMetrics || []).length > 0 ? `
-      <div class="card" style="margin-top: 24px;">
-        <div class="card-label">Key Metrics</div>
-        <ul class="flags-list">
-          ${bh.keyMetrics.map(m => `<li>${m}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-
-    ${(bh.redFlags || []).length > 0 ? `
-      <div class="card" style="margin-top: 24px;">
-        <div class="card-label">Red Flags</div>
-        <ul class="flags-list">
-          ${bh.redFlags.map(f => `<li class="red">${f}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-
-    ${(bh.greenFlags || []).length > 0 ? `
-      <div class="card" style="margin-top: 24px;">
-        <div class="card-label">Green Flags</div>
-        <ul class="flags-list">
-          ${bh.greenFlags.map(f => `<li class="green">${f}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-  `;
+.data-table tbody tr {
+  transition: background 0.1s;
 }
 
-function renderCustomerSupport() {
-  const container = document.getElementById('support-content');
-  if (!warRoomData.customerSupport) {
-    container.innerHTML = '<p>No customer support data available.</p>';
-    return;
-  }
-
-  const cs = warRoomData.customerSupport;
-  container.innerHTML = `
-    <div class="stats-row" style="margin-bottom: 24px;">
-      <div class="stat-box">
-        <div class="stat-value">${cs.totalTickets || 0}</div>
-        <div class="stat-label">Total Tickets</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value gold">${cs.avgResolutionTime || '0'}</div>
-        <div class="stat-label">Avg Resolution Time</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value green">${cs.sentiment?.positive || '0'}%</div>
-        <div class="stat-label">Positive Sentiment</div>
-      </div>
-    </div>
-
-    ${cs.sentiment ? `
-      <div class="card">
-        <div class="card-label">Sentiment Breakdown</div>
-        <div class="sentiment-chart">
-          <div class="sentiment-section positive" style="width: ${cs.sentiment.positive || 0}%">
-            ${cs.sentiment.positive || 0}% Positive
-          </div>
-          <div class="sentiment-section neutral" style="width: ${cs.sentiment.neutral || 0}%">
-            ${cs.sentiment.neutral || 0}% Neutral
-          </div>
-          <div class="sentiment-section negative" style="width: ${cs.sentiment.negative || 0}%">
-            ${cs.sentiment.negative || 0}% Negative
-          </div>
-        </div>
-      </div>
-    ` : ''}
-
-    ${(cs.topIssues || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">Top Issues</div>
-        ${cs.topIssues.map(issue => `
-          <div class="issue-card">
-            <div class="issue-title">${issue.issue}</div>
-            <div class="issue-count">${issue.count}</div>
-            <div class="issue-trend">Trend: ${issue.trend}</div>
-            <div style="margin-top: 12px; font-size: 13px; color: var(--label);">${issue.impact}</div>
-          </div>
-        `).join('')}
-      </div>
-    ` : ''}
-
-    ${(cs.insights || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">Key Insights</div>
-        <ul class="flags-list">
-          ${cs.insights.map(i => `<li>${i}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-
-    ${(cs.productFeedback || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">Product Feedback</div>
-        <ul class="flags-list">
-          ${cs.productFeedback.map(f => `<li>${f}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-  `;
+.data-table tbody tr:hover {
+  background: rgba(0,0,0,0.015);
 }
 
-function renderLanderReport() {
-  const container = document.getElementById('landers-content');
-  if (!warRoomData.landerReport || warRoomData.landerReport.length === 0) {
-    container.innerHTML = '<p>No lander data available.</p>';
-    return;
-  }
-
-  container.innerHTML = `
-    <div class="card">
-      <table class="lander-table">
-        <thead>
-          <tr>
-            <th>Lander</th>
-            <th>Product</th>
-            <th>Conv. Rate</th>
-            <th>Benchmark</th>
-            <th>Status</th>
-            <th>Traffic</th>
-            <th>Bounce Rate</th>
-            <th>Recommendation</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${warRoomData.landerReport.map(l => `
-            <tr>
-              <td><div class="lander-name">${l.name}</div></td>
-              <td>${l.product}</td>
-              <td><strong>${l.conversionRate}</strong></td>
-              <td>${l.benchmark}</td>
-              <td><span class="lander-status ${l.status}">${l.status}</span></td>
-              <td>${l.traffic}</td>
-              <td>${l.bounceRate || 'N/A'}</td>
-              <td>${l.recommendation}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
-  `;
+.data-table .cell-name {
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
-function renderGoogleAds() {
-  const container = document.getElementById('google-content');
-  if (!warRoomData.googleAds) {
-    container.innerHTML = '<p>No Google Ads data available.</p>';
-    return;
-  }
-
-  const ga = warRoomData.googleAds;
-  container.innerHTML = `
-    <div class="stats-row" style="margin-bottom: 24px;">
-      <div class="stat-box">
-        <div class="stat-value gold">${ga.totalSpend || '$0'}</div>
-        <div class="stat-label">Total Spend</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value green">${ga.totalRevenue || '$0'}</div>
-        <div class="stat-label">Total Revenue</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value">${ga.roas || '0.0'}x</div>
-        <div class="stat-label">ROAS</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value">${ga.conversions || 0}</div>
-        <div class="stat-label">Conversions</div>
-      </div>
-    </div>
-
-    ${ga.weekOverWeek ? `
-      <div class="card">
-        <div class="card-label">Week-over-Week Performance</div>
-        <div class="stats-row">
-          <div class="metric-card">
-            <div class="metric-title">Spend Change</div>
-            <div class="metric-change ${ga.weekOverWeek.spendChange?.startsWith('+') ? 'up' : 'down'}">
-              ${ga.weekOverWeek.spendChange || '0%'}
-            </div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-title">Revenue Change</div>
-            <div class="metric-change ${ga.weekOverWeek.revenueChange?.startsWith('+') ? 'up' : 'down'}">
-              ${ga.weekOverWeek.revenueChange || '0%'}
-            </div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-title">ROAS Change</div>
-            <div class="metric-change ${ga.weekOverWeek.roasChange?.startsWith('+') ? 'up' : 'down'}">
-              ${ga.weekOverWeek.roasChange || '0%'}
-            </div>
-          </div>
-        </div>
-        <div style="margin-top: 16px; font-size: 14px; color: var(--label);">
-          Trend: <strong>${ga.weekOverWeek.trend || 'stable'}</strong>
-        </div>
-      </div>
-    ` : ''}
-
-    ${(ga.topCampaigns || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">Top Campaigns</div>
-        <div class="strategies-grid">
-          ${ga.topCampaigns.map(c => `
-            <div class="strategy-card ${c.status}">
-              <span class="heat-indicator">${c.status === 'hot' ? '🔥' : c.status === 'warm' ? '⚡' : '❄️'}</span>
-              <div class="strategy-name">${c.name}</div>
-              <div style="font-size: 12px; margin-top: 8px; color: var(--label);">
-                <div>Spend: <strong>${c.spend}</strong></div>
-                <div>Revenue: <strong>${c.revenue}</strong></div>
-                <div>ROAS: <strong>${c.roas}x</strong></div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    ` : ''}
-
-    ${(ga.recommendations || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">P0 Recommendations</div>
-        <ul class="flags-list">
-          ${ga.recommendations.map(r => `<li class="red">${r}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-  `;
+.data-table .cell-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
 }
 
-function renderAmazonAds() {
-  const container = document.getElementById('amazon-content');
-  if (!warRoomData.amazonAds) {
-    container.innerHTML = '<p>No Amazon Ads data available.</p>';
-    return;
-  }
-
-  const aa = warRoomData.amazonAds;
-  container.innerHTML = `
-    <div class="stats-row" style="margin-bottom: 24px;">
-      <div class="stat-box">
-        <div class="stat-value gold">${aa.totalSpend || '$0'}</div>
-        <div class="stat-label">Total Spend</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value green">${aa.totalRevenue || '$0'}</div>
-        <div class="stat-label">Total Revenue</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value">${aa.acos || '0'}%</div>
-        <div class="stat-label">ACOS</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value">${aa.conversions || 0}</div>
-        <div class="stat-label">Conversions</div>
-      </div>
-    </div>
-
-    ${aa.weekOverWeek ? `
-      <div class="card">
-        <div class="card-label">Week-over-Week Performance</div>
-        <div class="stats-row">
-          <div class="metric-card">
-            <div class="metric-title">Spend Change</div>
-            <div class="metric-change ${aa.weekOverWeek.spendChange?.startsWith('+') ? 'up' : 'down'}">
-              ${aa.weekOverWeek.spendChange || '0%'}
-            </div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-title">Revenue Change</div>
-            <div class="metric-change ${aa.weekOverWeek.revenueChange?.startsWith('+') ? 'up' : 'down'}">
-              ${aa.weekOverWeek.revenueChange || '0%'}
-            </div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-title">ACOS Change</div>
-            <div class="metric-change ${aa.weekOverWeek.acosChange?.startsWith('-') ? 'up' : 'down'}">
-              ${aa.weekOverWeek.acosChange || '0%'}
-            </div>
-          </div>
-        </div>
-        <div style="margin-top: 16px; font-size: 14px; color: var(--label);">
-          Trend: <strong>${aa.weekOverWeek.trend || 'stable'}</strong>
-        </div>
-      </div>
-    ` : ''}
-
-    ${(aa.topCampaigns || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">Top Campaigns</div>
-        <div class="strategies-grid">
-          ${aa.topCampaigns.map(c => `
-            <div class="strategy-card ${c.status}">
-              <span class="heat-indicator">${c.status === 'hot' ? '🔥' : c.status === 'warm' ? '⚡' : '❄️'}</span>
-              <div class="strategy-name">${c.name}</div>
-              <div style="font-size: 12px; margin-top: 8px; color: var(--label);">
-                <div>Spend: <strong>${c.spend}</strong></div>
-                <div>Revenue: <strong>${c.revenue}</strong></div>
-                <div>ACOS: <strong>${c.acos}%</strong></div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    ` : ''}
-
-    ${(aa.recommendations || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">P0 Recommendations</div>
-        <ul class="flags-list">
-          ${aa.recommendations.map(r => `<li class="red">${r}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-  `;
-}
-
-function renderCompetitors() {
-  const container = document.getElementById('competitors-content');
-  if (!warRoomData.competitorAnalysis) {
-    container.innerHTML = '<p>No competitor data available.</p>';
-    return;
-  }
-
-  const ca = warRoomData.competitorAnalysis;
-  container.innerHTML = `
-    ${(ca.topAds || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">Top Competitor Ads</div>
-        <div class="competitor-grid">
-          ${ca.topAds.map(ad => `
-            <div class="competitor-ad-card">
-              <div class="competitor-brand">${ad.brand}</div>
-              <div class="competitor-meta">
-                <span>${ad.adType}</span>
-                <span>•</span>
-                <span>${ad.format}</span>
-                <span>•</span>
-                <span>${ad.engagement}</span>
-              </div>
-              <div class="competitor-hook">"${ad.hook}"</div>
-              <div style="font-size: 13px; color: var(--label); margin-bottom: 12px;">
-                <strong>Angle:</strong> ${ad.angle}
-              </div>
-              <div class="competitor-insight">
-                <strong>What works:</strong> ${ad.whatWorks}<br><br>
-                <strong>Adapt idea:</strong> ${ad.adaptIdea}
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    ` : ''}
-
-    ${(ca.marketTrends || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">Market Trends</div>
-        <ul class="flags-list">
-          ${ca.marketTrends.map(t => `<li>${t}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-
-    ${(ca.gaps || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">Gaps & Opportunities</div>
-        <ul class="flags-list">
-          ${ca.gaps.map(g => `<li>${g}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-
-    ${(ca.recommendations || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">P0 Recommendations</div>
-        <ul class="flags-list">
-          ${ca.recommendations.map(r => `<li class="red">${r}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-  `;
-}
-
-function renderPapaClaude() {
-  const container = document.getElementById('papa-content');
-  if (!warRoomData.papaClaude) {
-    container.innerHTML = '<p>No PapaClaude data available.</p>';
-    return;
-  }
-
-  const pc = warRoomData.papaClaude;
-  container.innerHTML = `
-    ${pc.greeting ? `
-      <div class="papa-greeting">${pc.greeting}</div>
-    ` : ''}
-
-    ${(pc.businessWideObservations || []).length > 0 ? `
-      <div class="papa-section">
-        <div class="papa-section-title">Business-Wide Observations</div>
-        <ul class="flags-list">
-          ${pc.businessWideObservations.map(o => `<li>${o}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-
-    ${(pc.strategicConcerns || []).length > 0 ? `
-      <div class="papa-section">
-        <div class="papa-section-title">Strategic Concerns</div>
-        <ul class="flags-list">
-          ${pc.strategicConcerns.map(c => `<li class="red">${c}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-
-    ${(pc.p0Recommendations || []).length > 0 ? `
-      <div class="papa-section">
-        <div class="papa-section-title">P0 Recommendations</div>
-        ${pc.p0Recommendations.map(rec => `
-          <div class="recommendation-card">
-            <div class="rec-area">${rec.area}</div>
-            <div class="rec-action">${rec.recommendation}</div>
-            <div class="rec-rationale">${rec.rationale}</div>
-            <div class="rec-impact"><strong>Impact:</strong> ${rec.impact}</div>
-          </div>
-        `).join('')}
-      </div>
-    ` : ''}
-
-    ${(pc.opportunities || []).length > 0 ? `
-      <div class="papa-section">
-        <div class="papa-section-title">Opportunities</div>
-        <ul class="flags-list">
-          ${pc.opportunities.map(o => `<li class="green">${o}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-
-    ${pc.closingThought ? `
-      <div class="papa-greeting" style="margin-top: 32px;">
-        ${pc.closingThought}
-      </div>
-    ` : ''}
-  `;
-}
-
-function renderPoliceman() {
-  const container = document.getElementById('police-content');
-  if (!warRoomData.policeman) {
-    container.innerHTML = '<p>No policeman data available.</p>';
-    return;
-  }
-
-  const pm = warRoomData.policeman;
-  container.innerHTML = `
-    ${pm.accountability ? `
-      <div class="accountability-stats">
-        <div class="accountability-stat">
-          <div class="accountability-stat-value">${pm.accountability.totalCommitments || 0}</div>
-          <div class="accountability-stat-label">Total Commitments</div>
-        </div>
-        <div class="accountability-stat">
-          <div class="accountability-stat-value">${pm.accountability.completed || 0}</div>
-          <div class="accountability-stat-label">Completed</div>
-        </div>
-        <div class="accountability-stat">
-          <div class="accountability-stat-value">${pm.accountability.completionRate || '0%'}</div>
-          <div class="accountability-stat-label">Completion Rate</div>
-        </div>
-      </div>
-    ` : ''}
-
-    ${(pm.lastWeekCommitments || []).length > 0 ? `
-      <div class="card" style="margin-top: 24px;">
-        <div class="card-label">Last Week's Commitments</div>
-        ${pm.lastWeekCommitments.map(c => `
-          <div class="commitment-card">
-            <div class="commitment-grade ${c.grade}">${c.grade}</div>
-            <div class="commitment-text">${c.commitment}</div>
-            <span class="commitment-status ${c.status.replace(' ', '-').toLowerCase()}">${c.status}</span>
-            <div class="commitment-evidence"><strong>Evidence:</strong> ${c.evidence}</div>
-            <div class="commitment-notes">${c.notes}</div>
-          </div>
-        `).join('')}
-      </div>
-    ` : ''}
-
-    ${(pm.redFlags || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">Red Flags</div>
-        <ul class="flags-list">
-          ${pm.redFlags.map(f => `<li class="red">${f}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-
-    ${(pm.greenFlags || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">Green Flags</div>
-        <ul class="flags-list">
-          ${pm.greenFlags.map(f => `<li class="green">${f}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-
-    ${(pm.feedback || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">Feedback</div>
-        <ul class="flags-list">
-          ${pm.feedback.map(f => `<li>${f}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-
-    ${(pm.nextWeekFocus || []).length > 0 ? `
-      <div class="card">
-        <div class="card-label">Next Week Focus</div>
-        <ul class="flags-list">
-          ${pm.nextWeekFocus.map(f => `<li class="green">${f}</li>`).join('')}
-        </ul>
-      </div>
-    ` : ''}
-  `;
-}
-</script>
-
-</body>
-</html>
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: ...
